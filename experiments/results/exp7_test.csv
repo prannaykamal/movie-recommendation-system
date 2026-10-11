@@ -1,0 +1,31 @@
+N,model,ndcg@10
+0,current (no fading),0.08483816385647469
+0,"fading eta=0.2, gamma=0.15, pop=count",0.08483816385647469
+0,"fading eta=0.4 (proposal), current gamma",0.08483816385647469
+0,most-popular only,0.08483816385647469
+3,current (no fading),0.062014251023054
+3,"fading eta=0.2, gamma=0.15, pop=count",0.08866056424648744
+3,"fading eta=0.4 (proposal), current gamma",0.08119434565563129
+3,most-popular only,0.08824375616516364
+5,current (no fading),0.07901386560808453
+5,"fading eta=0.2, gamma=0.15, pop=count",0.09319586792297672
+5,"fading eta=0.4 (proposal), current gamma",0.08567647149373071
+5,most-popular only,0.09070219333649257
+10,current (no fading),0.12647443342023815
+10,"fading eta=0.2, gamma=0.15, pop=count",0.12824953946418946
+10,"fading eta=0.4 (proposal), current gamma",0.12696156742720768
+10,most-popular only,0.09742367131390912
+20,current (no fading),0.18570372978782898
+20,"fading eta=0.2, gamma=0.15, pop=count",0.18623516474955656
+20,"fading eta=0.4 (proposal), current gamma",0.1860308900083714
+20,most-popular only,0.10310324553202319
+all,current (no fading),0.3583091425811589
+all,"fading eta=0.2, gamma=0.15, pop=count",0.3585374128335949
+all,"fading eta=0.4 (proposal), current gamma",0.3583091425811589
+all,most-popular only,0.16530948585459868
+full random,current (no fading),0.36678472622145747
+full random,"fading eta=0.2, gamma=0.15, pop=count",0.36681592078039693
+full random,"fading eta=0.4 (proposal), current gamma",0.36682671877466394
+full temporal,current (no fading),0.1336334400063851
+full temporal,"fading eta=0.2, gamma=0.15, pop=count",0.13347455468091388
+full temporal,"fading eta=0.4 (proposal), current gamma",0.1336334400063851

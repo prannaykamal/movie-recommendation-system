@@ -1,0 +1,1 @@
+epoch 10 loss 23.53 val ndcg@10 0.1656 (191.3s/epoch)

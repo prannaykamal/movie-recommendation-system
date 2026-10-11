@@ -1,0 +1,2 @@
+epoch 1 loss 40.00 val ndcg@10 0.1205 (99.0s/epoch)
+best 0.1204685464920358

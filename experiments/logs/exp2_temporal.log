@@ -1,0 +1,23 @@
+ factors   reg  conf   ndcg
+      64 100.0     3 0.1028
+      16 100.0     3 0.1023
+      32 100.0     3 0.1023
+      64 100.0    10 0.1010
+      16 100.0     1 0.1005
+svd on temporal-val: 0.0953
+ beta_ials  alpha_max   ndcg
+      0.50        0.8 0.1121
+      0.50        0.7 0.1119
+      0.25        0.8 0.1113
+      0.50        0.9 0.1112
+      0.25        0.7 0.1108
+      0.50        0.6 0.1101
+ALS_T {'factors': 64, 'reg': 100.0, 'mode': 'all', 'conf': 3.0, 'iters': 30}
+temporal test | svd                          α=0.7 ndcg@10=0.1223
+temporal test | svd                          α=0.8 ndcg@10=0.1243
+temporal test | ials (random-val params)     α=0.7 ndcg@10=0.1163
+temporal test | ials (random-val params)     α=0.8 ndcg@10=0.1141
+temporal test | ials (temporal-val params)   α=0.7 ndcg@10=0.1244
+temporal test | ials (temporal-val params)   α=0.8 ndcg@10=0.1235
+temporal test | 0.5 ials(rv) + 0.5 svd       α=0.7 ndcg@10=0.1327
+temporal test | 0.5 ials(rv) + 0.5 svd       α=0.8 ndcg@10=0.1340

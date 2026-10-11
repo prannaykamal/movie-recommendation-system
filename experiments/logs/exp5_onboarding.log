@@ -1,0 +1,17 @@
+                                    variant  precision  recall   ndcg    map    mrr
+           bayes_avg (current N=0 fallback)     0.0496  0.0357 0.0586 0.0234 0.1410
+                               most_popular     0.0716  0.0575 0.0848 0.0347 0.1884
+genres: 0.6 match + 0.4 bayes (current app)     0.0530  0.0440 0.0639 0.0255 0.1527
+            genres: 0.6 match + 0.4 mostpop     0.0680  0.0538 0.0802 0.0323 0.1834
+            genres: TF-IDF U_seed x log-pop     0.0195  0.0127 0.0241 0.0092 0.0684
+      3 seed favourites -> hybrid (fold-in)     0.0828  0.0744 0.0977 0.0401 0.2076
+             blend  ndcg@10
+    additive w=0.0   0.0848
+    additive w=0.1   0.0893
+    additive w=0.2   0.0929
+    additive w=0.3   0.0944
+   additive w=0.45   0.0919
+pop*(1+0.25*match)   0.0930
+ pop*(1+0.5*match)   0.0928
+ pop*(1+1.0*match)   0.0956
+ pop*(1+2.0*match)   0.0953

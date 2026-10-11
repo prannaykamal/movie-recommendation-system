@@ -1,0 +1,50 @@
+setting              model  ndcg@10  map@10
+ random            content   0.0250  0.0102
+ random        content_pop   0.1523  0.0727
+ random      hybrid(γ=1.0)   0.2520  0.1475
+ random  hybrid_pop(γ=1.0)   0.2577  0.1514
+ random     hybrid(γ=0.15)   0.2518  0.1474
+ random hybrid_pop(γ=0.15)   0.2582  0.1516
+ setting              model  ndcg@10  map@10
+temporal            content   0.0144  0.0061
+temporal        content_pop   0.0701  0.0294
+temporal      hybrid(γ=1.0)   0.1192  0.0589
+temporal  hybrid_pop(γ=1.0)   0.1238  0.0610
+temporal     hybrid(γ=0.15)   0.1194  0.0590
+temporal hybrid_pop(γ=0.15)   0.1241  0.0612
+ setting              model  ndcg@10  map@10
+cold N=3            content   0.0194  0.0072
+cold N=3        content_pop   0.0442  0.0167
+cold N=3      hybrid(γ=1.0)   0.0607  0.0235
+cold N=3  hybrid_pop(γ=1.0)   0.0626  0.0242
+cold N=3     hybrid(γ=0.15)   0.0340  0.0128
+cold N=3 hybrid_pop(γ=0.15)   0.0516  0.0192
+ setting              model  ndcg@10  map@10
+cold N=5            content   0.0258  0.0100
+cold N=5        content_pop   0.0536  0.0207
+cold N=5      hybrid(γ=1.0)   0.0705  0.0285
+cold N=5  hybrid_pop(γ=1.0)   0.0723  0.0294
+cold N=5     hybrid(γ=0.15)   0.0546  0.0217
+cold N=5 hybrid_pop(γ=0.15)   0.0707  0.0277
+  setting              model  ndcg@10  map@10
+cold N=10            content   0.0374  0.0156
+cold N=10        content_pop   0.0767  0.0315
+cold N=10      hybrid(γ=1.0)   0.0945  0.0416
+cold N=10  hybrid_pop(γ=1.0)   0.0960  0.0419
+cold N=10     hybrid(γ=0.15)   0.0880  0.0388
+cold N=10 hybrid_pop(γ=0.15)   0.0999  0.0438
+  setting              model  ndcg@10  map@10
+cold N=20            content   0.0329  0.0129
+cold N=20        content_pop   0.0964  0.0411
+cold N=20      hybrid(γ=1.0)   0.1195  0.0538
+cold N=20  hybrid_pop(γ=1.0)   0.1225  0.0552
+cold N=20     hybrid(γ=0.15)   0.1186  0.0535
+cold N=20 hybrid_pop(γ=0.15)   0.1246  0.0562
+setting             cold N=10  cold N=20  cold N=3  cold N=5  random  temporal
+model                                                                         
+content                0.0374     0.0329    0.0194    0.0258  0.0250    0.0144
+content_pop            0.0767     0.0964    0.0442    0.0536  0.1523    0.0701
+hybrid(γ=0.15)         0.0880     0.1186    0.0340    0.0546  0.2518    0.1194
+hybrid(γ=1.0)          0.0945     0.1195    0.0607    0.0705  0.2520    0.1192
+hybrid_pop(γ=0.15)     0.0999     0.1246    0.0516    0.0707  0.2582    0.1241
+hybrid_pop(γ=1.0)      0.0960     0.1225    0.0626    0.0723  0.2577    0.1238

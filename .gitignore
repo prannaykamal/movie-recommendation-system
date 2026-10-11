@@ -1,0 +1,12 @@
+data/
+artifacts/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+.playwright-mcp/
+experiments/results/*.npz
+
+# datasets: obtain separately (MovieLens license forbids redistribution)
+ml-1m.zip
+MovieSummaries.tar.gz

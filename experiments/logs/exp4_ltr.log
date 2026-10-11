@@ -1,0 +1,45 @@
+[random] train rows 298000, positives 0.079, candidate recall 0.497
+[random] best iteration 21
+hyb_rank    0.512
+ials        0.273
+logpop      0.033
+ials_raw    0.032
+hybrid      0.024
+svd_dev     0.017
+log_n_u     0.015
+meta_cos    0.015
+{'setting': 'random', 'hybrid (stage 1 only)': 0.3668177738176428, 'hybrid + LightGBM rerank': 0.37091212228647846}
+{'setting': 'temporal', 'hybrid (stage 1 only)': 0.13401208588918778, 'hybrid + LightGBM rerank': 0.12932951912946736}
+{'setting': 'cold N=3', 'hybrid (stage 1 only)': 0.05670307433679334, 'hybrid + LightGBM rerank': 0.058660977054420464}
+{'setting': 'cold N=5', 'hybrid (stage 1 only)': 0.07859964005398713, 'hybrid + LightGBM rerank': 0.0741052521872338}
+{'setting': 'cold N=10', 'hybrid (stage 1 only)': 0.1275679496912179, 'hybrid + LightGBM rerank': 0.12660197314003868}
+{'setting': 'cold N=20', 'hybrid (stage 1 only)': 0.1865107745740988, 'hybrid + LightGBM rerank': 0.18969975994493435}
+[temporal] train rows 296600, positives 0.052, candidate recall 0.339
+[temporal] best iteration 75
+ials_raw          0.121
+hyb_rank          0.119
+svd_dev           0.086
+logpop            0.079
+genre_affinity    0.055
+log_n_u           0.053
+avg_rating        0.049
+svd_raw           0.049
+{'setting': 'random', 'hybrid (stage 1 only)': 0.3668177738176428, 'hybrid + LightGBM rerank': 0.24703685774814318}
+{'setting': 'temporal', 'hybrid (stage 1 only)': 0.13401208588918778, 'hybrid + LightGBM rerank': 0.1455696439911809}
+{'setting': 'cold N=3', 'hybrid (stage 1 only)': 0.05670307433679334, 'hybrid + LightGBM rerank': 0.050460160088726086}
+{'setting': 'cold N=5', 'hybrid (stage 1 only)': 0.07859964005398713, 'hybrid + LightGBM rerank': 0.06932431919770086}
+{'setting': 'cold N=10', 'hybrid (stage 1 only)': 0.1275679496912179, 'hybrid + LightGBM rerank': 0.11562620188078178}
+{'setting': 'cold N=20', 'hybrid (stage 1 only)': 0.1865107745740988, 'hybrid + LightGBM rerank': 0.15111288746127838}
+ranker_trained_on   setting  hybrid (stage 1 only)  hybrid + LightGBM rerank
+           random    random                 0.3668                    0.3709
+           random  temporal                 0.1340                    0.1293
+           random  cold N=3                 0.0567                    0.0587
+           random  cold N=5                 0.0786                    0.0741
+           random cold N=10                 0.1276                    0.1266
+           random cold N=20                 0.1865                    0.1897
+         temporal    random                 0.3668                    0.2470
+         temporal  temporal                 0.1340                    0.1456
+         temporal  cold N=3                 0.0567                    0.0505
+         temporal  cold N=5                 0.0786                    0.0693
+         temporal cold N=10                 0.1276                    0.1156
+         temporal cold N=20                 0.1865                    0.1511

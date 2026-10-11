@@ -1,0 +1,112 @@
+  [1.2s]
+{'model': 'ials', 'factors': 64, 'reg': 0.01, 'mode': 'all', 'conf': 1, 'ndcg@10': 0.19592349865035913}
+  [1.3s]
+{'model': 'ials', 'factors': 64, 'reg': 0.01, 'mode': 'all', 'conf': 5, 'ndcg@10': 0.20099889999661322}
+  [1.3s]
+{'model': 'ials', 'factors': 64, 'reg': 0.01, 'mode': 'all', 'conf': 20, 'ndcg@10': 0.18169838366408952}
+  [0.8s]
+{'model': 'ials', 'factors': 64, 'reg': 0.01, 'mode': 'pos', 'conf': 1, 'ndcg@10': 0.16037179529212126}
+  [0.9s]
+{'model': 'ials', 'factors': 64, 'reg': 0.01, 'mode': 'pos', 'conf': 5, 'ndcg@10': 0.1977399069995951}
+  [0.9s]
+{'model': 'ials', 'factors': 64, 'reg': 0.01, 'mode': 'pos', 'conf': 20, 'ndcg@10': 0.18298836923795475}
+  [1.5s]
+{'model': 'ials', 'factors': 64, 'reg': 0.1, 'mode': 'all', 'conf': 1, 'ndcg@10': 0.19637306947042812}
+  [1.5s]
+{'model': 'ials', 'factors': 64, 'reg': 0.1, 'mode': 'all', 'conf': 5, 'ndcg@10': 0.20084324850256724}
+  [1.5s]
+{'model': 'ials', 'factors': 64, 'reg': 0.1, 'mode': 'all', 'conf': 20, 'ndcg@10': 0.1811993584088953}
+  [1.1s]
+{'model': 'ials', 'factors': 64, 'reg': 0.1, 'mode': 'pos', 'conf': 1, 'ndcg@10': 0.16107916497607058}
+  [1.1s]
+{'model': 'ials', 'factors': 64, 'reg': 0.1, 'mode': 'pos', 'conf': 5, 'ndcg@10': 0.19679555979612232}
+  [1.1s]
+{'model': 'ials', 'factors': 64, 'reg': 0.1, 'mode': 'pos', 'conf': 20, 'ndcg@10': 0.1825889960352469}
+  [1.5s]
+{'model': 'ials', 'factors': 64, 'reg': 1.0, 'mode': 'all', 'conf': 1, 'ndcg@10': 0.19783430594683427}
+  [1.6s]
+{'model': 'ials', 'factors': 64, 'reg': 1.0, 'mode': 'all', 'conf': 5, 'ndcg@10': 0.20325366723639687}
+  [1.6s]
+{'model': 'ials', 'factors': 64, 'reg': 1.0, 'mode': 'all', 'conf': 20, 'ndcg@10': 0.17976255920225262}
+  [1.0s]
+{'model': 'ials', 'factors': 64, 'reg': 1.0, 'mode': 'pos', 'conf': 1, 'ndcg@10': 0.16216426690905603}
+  [1.1s]
+{'model': 'ials', 'factors': 64, 'reg': 1.0, 'mode': 'pos', 'conf': 5, 'ndcg@10': 0.19821531198843917}
+  [1.2s]
+{'model': 'ials', 'factors': 64, 'reg': 1.0, 'mode': 'pos', 'conf': 20, 'ndcg@10': 0.1828809735699665}
+  [2.2s]
+{'model': 'ials', 'factors': 128, 'reg': 0.01, 'mode': 'all', 'conf': 1, 'ndcg@10': 0.1605495505946876}
+  [2.1s]
+{'model': 'ials', 'factors': 128, 'reg': 0.01, 'mode': 'all', 'conf': 5, 'ndcg@10': 0.1732420481688186}
+  [2.2s]
+{'model': 'ials', 'factors': 128, 'reg': 0.01, 'mode': 'all', 'conf': 20, 'ndcg@10': 0.16729017834959453}
+  [1.4s]
+{'model': 'ials', 'factors': 128, 'reg': 0.01, 'mode': 'pos', 'conf': 1, 'ndcg@10': 0.1396419898180498}
+  [1.5s]
+{'model': 'ials', 'factors': 128, 'reg': 0.01, 'mode': 'pos', 'conf': 5, 'ndcg@10': 0.1700704466484402}
+  [1.6s]
+{'model': 'ials', 'factors': 128, 'reg': 0.01, 'mode': 'pos', 'conf': 20, 'ndcg@10': 0.16441817286286498}
+  [2.4s]
+{'model': 'ials', 'factors': 128, 'reg': 0.1, 'mode': 'all', 'conf': 1, 'ndcg@10': 0.16041580929682564}
+  [2.2s]
+{'model': 'ials', 'factors': 128, 'reg': 0.1, 'mode': 'all', 'conf': 5, 'ndcg@10': 0.17277446088393697}
+  [2.3s]
+{'model': 'ials', 'factors': 128, 'reg': 0.1, 'mode': 'all', 'conf': 20, 'ndcg@10': 0.16879838406237932}
+  [1.3s]
+{'model': 'ials', 'factors': 128, 'reg': 0.1, 'mode': 'pos', 'conf': 1, 'ndcg@10': 0.13976846377443433}
+  [1.5s]
+{'model': 'ials', 'factors': 128, 'reg': 0.1, 'mode': 'pos', 'conf': 5, 'ndcg@10': 0.1701577167121437}
+  [1.6s]
+{'model': 'ials', 'factors': 128, 'reg': 0.1, 'mode': 'pos', 'conf': 20, 'ndcg@10': 0.1660104227624919}
+  [2.4s]
+{'model': 'ials', 'factors': 128, 'reg': 1.0, 'mode': 'all', 'conf': 1, 'ndcg@10': 0.16063938291373472}
+  [2.2s]
+{'model': 'ials', 'factors': 128, 'reg': 1.0, 'mode': 'all', 'conf': 5, 'ndcg@10': 0.173207444146763}
+  [2.6s]
+{'model': 'ials', 'factors': 128, 'reg': 1.0, 'mode': 'all', 'conf': 20, 'ndcg@10': 0.16946672398808701}
+  [1.8s]
+{'model': 'ials', 'factors': 128, 'reg': 1.0, 'mode': 'pos', 'conf': 1, 'ndcg@10': 0.14080251074668237}
+  [1.9s]
+{'model': 'ials', 'factors': 128, 'reg': 1.0, 'mode': 'pos', 'conf': 5, 'ndcg@10': 0.17176108413595895}
+  [1.9s]
+{'model': 'ials', 'factors': 128, 'reg': 1.0, 'mode': 'pos', 'conf': 20, 'ndcg@10': 0.1689813454687259}
+  [12.8s]
+{'model': 'bpr', 'factors': 64, 'lr': 0.01, 'reg': 0.001, 'mode': 'all', 'ndcg@10': 0.10238779003860064}
+  [7.5s]
+{'model': 'bpr', 'factors': 64, 'lr': 0.01, 'reg': 0.001, 'mode': 'pos', 'ndcg@10': 0.11660071489525942}
+  [12.7s]
+{'model': 'bpr', 'factors': 64, 'lr': 0.01, 'reg': 0.01, 'mode': 'all', 'ndcg@10': 0.10691569735714826}
+  [7.3s]
+{'model': 'bpr', 'factors': 64, 'lr': 0.01, 'reg': 0.01, 'mode': 'pos', 'ndcg@10': 0.12418277101134745}
+  [13.9s]
+{'model': 'bpr', 'factors': 64, 'lr': 0.05, 'reg': 0.001, 'mode': 'all', 'ndcg@10': 0.06290036720315215}
+  [7.4s]
+{'model': 'bpr', 'factors': 64, 'lr': 0.05, 'reg': 0.001, 'mode': 'pos', 'ndcg@10': 0.06995869238466472}
+  [13.2s]
+{'model': 'bpr', 'factors': 64, 'lr': 0.05, 'reg': 0.01, 'mode': 'all', 'ndcg@10': 0.08820790551657709}
+  [7.1s]
+{'model': 'bpr', 'factors': 64, 'lr': 0.05, 'reg': 0.01, 'mode': 'pos', 'ndcg@10': 0.09354303423909442}
+  [22.5s]
+{'model': 'bpr', 'factors': 128, 'lr': 0.01, 'reg': 0.001, 'mode': 'all', 'ndcg@10': 0.09618619834030291}
+  [13.8s]
+{'model': 'bpr', 'factors': 128, 'lr': 0.01, 'reg': 0.001, 'mode': 'pos', 'ndcg@10': 0.10659882029469765}
+  [23.9s]
+{'model': 'bpr', 'factors': 128, 'lr': 0.01, 'reg': 0.01, 'mode': 'all', 'ndcg@10': 0.11146842843763648}
+  [14.1s]
+{'model': 'bpr', 'factors': 128, 'lr': 0.01, 'reg': 0.01, 'mode': 'pos', 'ndcg@10': 0.12104282244925875}
+  [23.4s]
+{'model': 'bpr', 'factors': 128, 'lr': 0.05, 'reg': 0.001, 'mode': 'all', 'ndcg@10': 0.053890777929277406}
+  [13.9s]
+{'model': 'bpr', 'factors': 128, 'lr': 0.05, 'reg': 0.001, 'mode': 'pos', 'ndcg@10': 0.06249502945916639}
+  [23.4s]
+{'model': 'bpr', 'factors': 128, 'lr': 0.05, 'reg': 0.01, 'mode': 'all', 'ndcg@10': 0.08744708149738861}
+  [13.7s]
+{'model': 'bpr', 'factors': 128, 'lr': 0.05, 'reg': 0.01, 'mode': 'pos', 'ndcg@10': 0.09157225449355313}
+    model  factors   reg mode  conf  ndcg@10   lr
+     ials     64.0 1.000  all   5.0 0.203254  NaN
+     ials     64.0 0.010  all   5.0 0.200999  NaN
+     ials     64.0 0.100  all   5.0 0.200843  NaN
+svd(k=32)      NaN   NaN  NaN   NaN 0.138462  NaN
+      bpr     64.0 0.010  pos   NaN 0.124183 0.01
+      bpr    128.0 0.010  pos   NaN 0.121043 0.01
+      bpr     64.0 0.001  pos   NaN 0.116601 0.01

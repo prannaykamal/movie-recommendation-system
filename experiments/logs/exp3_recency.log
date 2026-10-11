@@ -1,0 +1,35 @@
+{'split': 'temporal', 'target': 'content', 'decay': 'none:None', 'ndcg@10': 0.12377416684772055}
+{'split': 'temporal', 'target': 'content', 'decay': 'days:7', 'ndcg@10': 0.1238906410625036}
+{'split': 'temporal', 'target': 'content', 'decay': 'days:30', 'ndcg@10': 0.12390964477496759}
+{'split': 'temporal', 'target': 'content', 'decay': 'days:180', 'ndcg@10': 0.12383670866930752}
+{'split': 'temporal', 'target': 'content', 'decay': 'order:10', 'ndcg@10': 0.12601849901942708}
+{'split': 'temporal', 'target': 'content', 'decay': 'order:25', 'ndcg@10': 0.12546126263039722}
+{'split': 'temporal', 'target': 'content', 'decay': 'order:50', 'ndcg@10': 0.12457315413445029}
+{'split': 'temporal', 'target': 'content', 'decay': 'order:100', 'ndcg@10': 0.12402792721779086}
+{'split': 'temporal', 'target': 'content+svd', 'decay': 'order:25', 'ndcg@10': 0.10422604324514131}
+{'split': 'temporal', 'target': 'content+svd', 'decay': 'order:50', 'ndcg@10': 0.11060613467202689}
+{'split': 'temporal', 'target': 'content+svd', 'decay': 'days:30', 'ndcg@10': 0.11776629170719778}
+{'split': 'random', 'target': 'content', 'decay': 'none:None', 'ndcg@10': 0.25774230053137664}
+{'split': 'random', 'target': 'content', 'decay': 'days:7', 'ndcg@10': 0.2544102921211367}
+{'split': 'random', 'target': 'content', 'decay': 'days:30', 'ndcg@10': 0.25544429964251697}
+{'split': 'random', 'target': 'content', 'decay': 'days:180', 'ndcg@10': 0.2569886822414445}
+{'split': 'random', 'target': 'content', 'decay': 'order:10', 'ndcg@10': 0.24935307185394964}
+{'split': 'random', 'target': 'content', 'decay': 'order:25', 'ndcg@10': 0.25420560884848575}
+{'split': 'random', 'target': 'content', 'decay': 'order:50', 'ndcg@10': 0.2560016775807487}
+{'split': 'random', 'target': 'content', 'decay': 'order:100', 'ndcg@10': 0.25739005166765866}
+{'split': 'random', 'target': 'content+svd', 'decay': 'order:25', 'ndcg@10': 0.17916663402231006}
+{'split': 'random', 'target': 'content+svd', 'decay': 'order:50', 'ndcg@10': 0.207926190072219}
+{'split': 'random', 'target': 'content+svd', 'decay': 'days:30', 'ndcg@10': 0.2251160727286497}
+split                  random  temporal
+target      decay                      
+content     days:180   0.2570    0.1238
+            days:30    0.2554    0.1239
+            days:7     0.2544    0.1239
+            none:None  0.2577    0.1238
+            order:10   0.2494    0.1260
+            order:100  0.2574    0.1240
+            order:25   0.2542    0.1255
+            order:50   0.2560    0.1246
+content+svd days:30    0.2251    0.1178
+            order:25   0.1792    0.1042
+            order:50   0.2079    0.1106
