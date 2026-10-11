@@ -30,6 +30,7 @@ class RecommenderService:
                                      self.params["w_plot"], self.params["pos_threshold"],
                                      item_counts=counts if self.params.get("content_pop_gate", True) else None)
         self.popularity = minmax_rows(counts[None, :].astype(np.float32))[0]
+        self.log_popularity = minmax_rows(np.log1p(counts)[None, :].astype(np.float32))[0]
         self.genres = sorted({g for gs in self.items["genres"] for g in gs.split("|")})
 
     def _hybrid(self, alpha_max, gamma, pop_eta) -> DynamicHybridRecommender:
@@ -51,13 +52,18 @@ class RecommenderService:
         match = self.items["genres"].str.split("|").apply(lambda gs: len(set(gs) & set(genres)) / len(genres))
         return minmax_rows((self.popularity * (1.0 + match.to_numpy(np.float32)))[None])[0]
 
-    def _recommend(self, row: sparse.csr_matrix, content, collab, popularity, k, alpha_max, gamma, pop_eta):
+    def _recommend(self, row: sparse.csr_matrix, content, collab, popularity, k, alpha_max, gamma, pop_eta,
+                   pop_penalty):
         """Returns (recommendations with per-engine scores, {"alpha", "beta"}) for one user row."""
         n_u = row.nnz
         h = self._hybrid(alpha_max, gamma, pop_eta)
         scores = h.blend(np.array([n_u]), content[None], collab[None], popularity)[0]
+        penalty = self.params.get("pop_penalty", 0.0) if pop_penalty is None else pop_penalty
+        if penalty:
+            scores = scores - penalty * self.log_popularity
         top = DynamicHybridRecommender.top_k(scores[None, :], [row.indices], k)[0]
         expl = h.explain(n_u, content, collab, top, popularity)
+        expl["s_hybrid"] = scores[top]  # includes the exposure penalty, if any
         out = expl.merge(self.items[["idx", "movieId", "title", "genres", "plot_summary"]], on="idx")
         return out, {"alpha": float(h.calculate_alpha(n_u)), "beta": float(h.calculate_beta(n_u))}
 
@@ -66,15 +72,16 @@ class RecommenderService:
         hist = pd.DataFrame({"idx": row.indices, "rating": row.data})
         return hist.merge(self.items[["idx", "title", "genres"]], on="idx").sort_values("rating", ascending=False)
 
-    def recommend_existing(self, user_id: int, k: int = 10, alpha_max=None, gamma=None, pop_eta=None):
+    def recommend_existing(self, user_id: int, k: int = 10, alpha_max=None, gamma=None, pop_eta=None,
+                           pop_penalty=None):
         u = self.index.uidx(user_id)
         row = self.R[u]
         content = self.content.score(row)[0]
         collab = self._collab(self.collab.score(np.array([u]))[0], lambda: self.ials.score(np.array([u]))[0])
-        return self._recommend(row, content, collab, self.popularity, k, alpha_max, gamma, pop_eta)
+        return self._recommend(row, content, collab, self.popularity, k, alpha_max, gamma, pop_eta, pop_penalty)
 
     def recommend_new(self, ratings: dict[int, float], genres: list[str] | None = None, k: int = 10,
-                      alpha_max=None, gamma=None, pop_eta=None):
+                      alpha_max=None, gamma=None, pop_eta=None, pop_penalty=None):
         """Cold-start path for a user outside the training matrix. `ratings` maps movieId -> stars.
         Collaborative scores come from folding the ratings into the learned SVD and iALS item
         factors. The popularity prior (boosted by any selected genres) is the whole score with no
@@ -87,7 +94,8 @@ class RecommenderService:
             collab = self._collab(self.collab.score_new(row)[0], lambda: self.ials.score_new(row)[0])
         else:
             content = collab = np.zeros(self.index.n_items, dtype=np.float32)
-        return self._recommend(row, content, collab, self.popularity_prior(genres), k, alpha_max, gamma, pop_eta)
+        return self._recommend(row, content, collab, self.popularity_prior(genres), k, alpha_max, gamma, pop_eta,
+                               pop_penalty)
 
     def search(self, query: str, limit: int = 20) -> pd.DataFrame:
         hits = self.items[self.items["title"].str.contains(query, case=False, regex=False)]

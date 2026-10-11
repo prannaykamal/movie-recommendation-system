@@ -42,6 +42,8 @@ The protocol matches `recsys.evaluation`:
 | `exp6_lightgcn.py` | **S6:** LightGCN with BPR loss on CPU. Arguments: `<val\|random\|temporal> <all\|pos> [max_epochs] [eval_every]` | `lightgcn_*.npz` | ❌ About 100 s per epoch on an idle CPU; 0.166 after 10 epochs (`logs/exp6_lightgcn_val_all_10epochs_original.log`) vs iALS 0.215 *(val)*. Not run to convergence |
 | `exp_final_test.py` | Test-set comparison: baseline, then + gating, iALS alone, then + iALS + gating | `final_test.csv` | Basis for adopting S1 and S2 |
 | `exp7_fading_popularity.py` | **Follow-up:** fading popularity prior β(u) = e^(−η·N_u), with η, γ and S_pop tuned on truncated validation histories | `exp7_{val,test}.csv` | ✅ N = 3: 0.062 → 0.089 (+43%); N = 5: 0.079 → 0.093; full histories unchanged |
+| `exp8_robustness.py [compute\|analyse]` | **Final-system audit.** Five seeds × six settings (random, temporal, cold N = 3/5/10/20). Every adopted decision is compared with its alternative by paired bootstrap over users. Also: a content-channel ablation (metadata vs plots vs none) and beyond-accuracy metrics for every variant | `exp8_per_user.parquet`, `exp8_comparisons.csv`, `exp8_means.csv`, `exp8_beyond*.csv` | Gains robust (5/5 seeds). Gating is only +1.7% temporal in the final system; w_meta and γ choices are noise; plots add ≤0.7% inside the hybrid; the system is strongly popularity-biased |
+| `exp9_popularity_tradeoff.py` | Accuracy vs exposure frontier for an optional popularity penalty λ, on validation and test | `exp9_popularity_tradeoff.csv` | λ = 0.1–0.3: +10–38% coverage for 0–0.7% (random) / 0.8–4.0% (temporal) NDCG; collapses at 0.5. Default left at 0 |
 
 Helper modules:
 - `exp_common.py`: data, splits, evaluation harness and the pinned baseline config.

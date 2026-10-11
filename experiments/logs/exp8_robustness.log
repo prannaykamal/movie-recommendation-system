@@ -1,0 +1,195 @@
+seed 42 random: final ndcg@10 0.3668
+seed 42 temporal: final ndcg@10 0.1335
+seed 42 cold N=3: final ndcg@10 0.0887
+seed 42 cold N=5: final ndcg@10 0.0932
+seed 42 cold N=10: final ndcg@10 0.1282
+seed 42 cold N=20: final ndcg@10 0.1862
+seed 43 random: final ndcg@10 0.3674
+seed 43 temporal: final ndcg@10 0.1341
+seed 43 cold N=3: final ndcg@10 0.0911
+seed 43 cold N=5: final ndcg@10 0.1008
+seed 43 cold N=10: final ndcg@10 0.1278
+seed 43 cold N=20: final ndcg@10 0.1955
+seed 44 random: final ndcg@10 0.3679
+seed 44 temporal: final ndcg@10 0.1339
+seed 44 cold N=3: final ndcg@10 0.0937
+seed 44 cold N=5: final ndcg@10 0.0994
+seed 44 cold N=10: final ndcg@10 0.1331
+seed 44 cold N=20: final ndcg@10 0.2005
+seed 45 random: final ndcg@10 0.3672
+seed 45 temporal: final ndcg@10 0.1335
+seed 45 cold N=3: final ndcg@10 0.0965
+seed 45 cold N=5: final ndcg@10 0.1012
+seed 45 cold N=10: final ndcg@10 0.1347
+seed 45 cold N=20: final ndcg@10 0.1960
+seed 46 random: final ndcg@10 0.3682
+seed 46 temporal: final ndcg@10 0.1327
+seed 46 cold N=3: final ndcg@10 0.0971
+seed 46 cold N=5: final ndcg@10 0.0989
+seed 46 cold N=10: final ndcg@10 0.1311
+seed 46 cold N=20: final ndcg@10 0.1954
+
+NDCG@10 mean over 5 seeds:
+setting              random  temporal  cold N=3  cold N=5  cold N=10  cold N=20
+variant                                                                        
+alone_content_both   0.1518    0.0686    0.0454    0.0534     0.0768     0.0989
+alone_content_meta   0.1401    0.0623    0.0367    0.0457     0.0652     0.0862
+alone_content_plot   0.0806    0.0520    0.0469    0.0503     0.0588     0.0626
+alone_ials           0.3511    0.1102    0.0688    0.0831     0.1330     0.1974
+alone_most_popular   0.1735    0.0918    0.0916    0.0945     0.1010     0.1086
+alone_svd            0.2367    0.1176    0.0658    0.0748     0.0949     0.1231
+collab_ials_only     0.3577    0.1144    0.0936    0.0966     0.1345     0.1995
+collab_svd_only      0.2617    0.1234    0.0932    0.0954     0.1081     0.1356
+content_meta_only    0.3663    0.1326    0.0940    0.0987     0.1293     0.1934
+content_plot_only    0.3540    0.1297    0.0917    0.0954     0.1255     0.1885
+final                0.3675    0.1335    0.0934    0.0987     0.1310     0.1947
+gamma_1.0            0.3676    0.1334    0.0930    0.0969     0.1316     0.1955
+no_content           0.3629    0.1291    0.0925    0.0955     0.1301     0.1939
+no_fading_gamma_1.0  0.3677    0.1336    0.0712    0.0856     0.1312     0.1953
+no_gating            0.3673    0.1313    0.0935    0.0988     0.1306     0.1953
+original_system      0.2520    0.1188    0.0645    0.0741     0.0960     0.1281
+w_meta_0.8           0.3675    0.1334    0.0939    0.0990     0.1305     0.1943
+
+NDCG@10 std over seeds:
+setting              random  temporal  cold N=3  cold N=5  cold N=10  cold N=20
+variant                                                                        
+alone_content_both   0.0006    0.0000    0.0034    0.0017     0.0043     0.0066
+alone_content_meta   0.0010    0.0000    0.0033    0.0028     0.0039     0.0066
+alone_content_plot   0.0003    0.0000    0.0032    0.0023     0.0052     0.0041
+alone_ials           0.0006    0.0004    0.0041    0.0031     0.0041     0.0047
+alone_most_popular   0.0016    0.0000    0.0036    0.0039     0.0044     0.0042
+alone_svd            0.0012    0.0007    0.0039    0.0041     0.0040     0.0055
+collab_ials_only     0.0008    0.0002    0.0037    0.0031     0.0030     0.0046
+collab_svd_only      0.0008    0.0008    0.0039    0.0040     0.0048     0.0052
+content_meta_only    0.0011    0.0006    0.0034    0.0036     0.0038     0.0054
+content_plot_only    0.0008    0.0001    0.0035    0.0035     0.0036     0.0048
+final                0.0005    0.0005    0.0036    0.0032     0.0030     0.0052
+gamma_1.0            0.0006    0.0005    0.0032    0.0034     0.0035     0.0057
+no_content           0.0004    0.0005    0.0035    0.0031     0.0037     0.0059
+no_fading_gamma_1.0  0.0007    0.0005    0.0056    0.0040     0.0041     0.0056
+no_gating            0.0007    0.0007    0.0038    0.0030     0.0032     0.0048
+original_system      0.0011    0.0009    0.0037    0.0036     0.0043     0.0052
+w_meta_0.8           0.0008    0.0008    0.0033    0.0032     0.0038     0.0052
+
+Paired comparisons (diff = variant - reference, mean over seeds; sig = seeds whose 95% CI excludes 0):
+                                          question   setting    diff  rel_diff  seed_min  seed_max  seeds_sig_better  seeds_sig_worse
+               overall gain vs the original system    random  0.1155      45.8    0.1148    0.1170                 5                0
+               overall gain vs the original system  temporal  0.0147      12.4    0.0139    0.0154                 5                0
+               overall gain vs the original system  cold N=3  0.0290      44.9    0.0270    0.0322                 5                0
+               overall gain vs the original system  cold N=5  0.0246      33.2    0.0216    0.0281                 5                0
+               overall gain vs the original system cold N=10  0.0350      36.4    0.0322    0.0392                 5                0
+               overall gain vs the original system cold N=20  0.0667      52.1    0.0625    0.0708                 5                0
+                              S1 popularity gating    random  0.0002       0.1   -0.0001    0.0008                 0                0
+                              S1 popularity gating  temporal  0.0023       1.7    0.0018    0.0027                 5                0
+                              S1 popularity gating  cold N=3 -0.0001      -0.1   -0.0004    0.0005                 0                0
+                              S1 popularity gating  cold N=5 -0.0001      -0.1   -0.0005    0.0005                 0                0
+                              S1 popularity gating cold N=10  0.0004       0.3   -0.0005    0.0008                 0                0
+                              S1 popularity gating cold N=20 -0.0006      -0.3   -0.0015    0.0001                 0                0
+             S2 iALS in the ensemble (vs SVD only)    random  0.1058      40.4    0.1050    0.1070                 5                0
+             S2 iALS in the ensemble (vs SVD only)  temporal  0.0101       8.2    0.0092    0.0106                 5                0
+             S2 iALS in the ensemble (vs SVD only)  cold N=3  0.0003       0.3   -0.0012    0.0012                 0                0
+             S2 iALS in the ensemble (vs SVD only)  cold N=5  0.0033       3.5    0.0016    0.0051                 3                0
+             S2 iALS in the ensemble (vs SVD only) cold N=10  0.0229      21.2    0.0189    0.0272                 5                0
+             S2 iALS in the ensemble (vs SVD only) cold N=20  0.0591      43.6    0.0548    0.0616                 5                0
+             S2 SVD in the ensemble (vs iALS only)    random  0.0098       2.7    0.0087    0.0110                 5                0
+             S2 SVD in the ensemble (vs iALS only)  temporal  0.0192      16.8    0.0186    0.0196                 5                0
+             S2 SVD in the ensemble (vs iALS only)  cold N=3 -0.0002      -0.2   -0.0015    0.0012                 0                0
+             S2 SVD in the ensemble (vs iALS only)  cold N=5  0.0021       2.2    0.0014    0.0030                 1                0
+             S2 SVD in the ensemble (vs iALS only) cold N=10 -0.0035      -2.6   -0.0060    0.0001                 0                2
+             S2 SVD in the ensemble (vs iALS only) cold N=20 -0.0048      -2.4   -0.0075   -0.0013                 0                1
+                                w_meta 0.65 vs 0.8    random -0.0001      -0.0   -0.0004    0.0003                 0                0
+                                w_meta 0.65 vs 0.8  temporal  0.0001       0.1   -0.0003    0.0006                 0                0
+                                w_meta 0.65 vs 0.8  cold N=3 -0.0005      -0.5   -0.0009    0.0007                 0                0
+                                w_meta 0.65 vs 0.8  cold N=5 -0.0004      -0.4   -0.0014    0.0005                 0                0
+                                w_meta 0.65 vs 0.8 cold N=10  0.0005       0.4   -0.0006    0.0020                 1                0
+                                w_meta 0.65 vs 0.8 cold N=20  0.0004       0.2   -0.0009    0.0018                 1                0
+                 fading prior (vs previous system)    random -0.0002      -0.1   -0.0005    0.0000                 0                1
+                 fading prior (vs previous system)  temporal -0.0000      -0.0   -0.0002    0.0002                 0                0
+                 fading prior (vs previous system)  cold N=3  0.0222      31.1    0.0177    0.0266                 5                0
+                 fading prior (vs previous system)  cold N=5  0.0131      15.3    0.0115    0.0142                 5                0
+                 fading prior (vs previous system) cold N=10 -0.0002      -0.1   -0.0030    0.0018                 0                0
+                 fading prior (vs previous system) cold N=20 -0.0006      -0.3   -0.0015    0.0005                 0                0
+                   gamma 0.15 vs 1.0 (with fading)    random -0.0001      -0.0   -0.0003    0.0001                 0                0
+                   gamma 0.15 vs 1.0 (with fading)  temporal  0.0001       0.1   -0.0001    0.0003                 1                0
+                   gamma 0.15 vs 1.0 (with fading)  cold N=3  0.0005       0.5   -0.0016    0.0026                 0                0
+                   gamma 0.15 vs 1.0 (with fading)  cold N=5  0.0018       1.8    0.0015    0.0021                 0                0
+                   gamma 0.15 vs 1.0 (with fading) cold N=10 -0.0006      -0.5   -0.0017    0.0005                 0                0
+                   gamma 0.15 vs 1.0 (with fading) cold N=20 -0.0008      -0.4   -0.0011    0.0003                 0                0
+                             final vs most-popular    random  0.1940     111.9    0.1922    0.1962                 5                0
+                             final vs most-popular  temporal  0.0418      45.5    0.0409    0.0424                 5                0
+                             final vs most-popular  cold N=3  0.0018       2.0   -0.0001    0.0056                 1                0
+                             final vs most-popular  cold N=5  0.0042       4.4   -0.0008    0.0097                 2                0
+                             final vs most-popular cold N=10  0.0300      29.7    0.0243    0.0344                 5                0
+                             final vs most-popular cold N=20  0.0861      79.2    0.0817    0.0889                 5                0
+                               final vs iALS alone    random  0.0163       4.7    0.0152    0.0171                 5                0
+                               final vs iALS alone  temporal  0.0234      21.2    0.0227    0.0244                 5                0
+                               final vs iALS alone  cold N=3  0.0246      35.7    0.0195    0.0268                 5                0
+                               final vs iALS alone  cold N=5  0.0156      18.8    0.0136    0.0194                 5                0
+                               final vs iALS alone cold N=10 -0.0020      -1.5   -0.0062    0.0057                 0                0
+                               final vs iALS alone cold N=20 -0.0027      -1.4   -0.0054   -0.0000                 0                0
+ablation: plot channel (both vs meta-only content)    random  0.0011       0.3   -0.0001    0.0020                 3                0
+ablation: plot channel (both vs meta-only content)  temporal  0.0009       0.7    0.0006    0.0014                 2                0
+ablation: plot channel (both vs meta-only content)  cold N=3 -0.0006      -0.6   -0.0013    0.0005                 0                0
+ablation: plot channel (both vs meta-only content)  cold N=5  0.0000       0.0   -0.0009    0.0007                 0                0
+ablation: plot channel (both vs meta-only content) cold N=10  0.0017       1.3    0.0002    0.0037                 2                0
+ablation: plot channel (both vs meta-only content) cold N=20  0.0013       0.7   -0.0003    0.0033                 1                0
+ablation: meta channel (both vs plot-only content)    random  0.0135       3.8    0.0123    0.0145                 5                0
+ablation: meta channel (both vs plot-only content)  temporal  0.0038       3.0    0.0030    0.0043                 5                0
+ablation: meta channel (both vs plot-only content)  cold N=3  0.0017       1.8   -0.0001    0.0037                 1                0
+ablation: meta channel (both vs plot-only content)  cold N=5  0.0033       3.5    0.0009    0.0049                 3                0
+ablation: meta channel (both vs plot-only content) cold N=10  0.0055       4.4    0.0008    0.0075                 4                0
+ablation: meta channel (both vs plot-only content) cold N=20  0.0062       3.3    0.0021    0.0090                 4                0
+    ablation: any content (vs collab + popularity)    random  0.0046       1.3    0.0042    0.0050                 5                0
+    ablation: any content (vs collab + popularity)  temporal  0.0044       3.4    0.0037    0.0048                 5                0
+    ablation: any content (vs collab + popularity)  cold N=3  0.0009       1.0   -0.0022    0.0040                 1                0
+    ablation: any content (vs collab + popularity)  cold N=5  0.0032       3.3    0.0027    0.0040                 1                0
+    ablation: any content (vs collab + popularity) cold N=10  0.0009       0.7   -0.0008    0.0037                 1                0
+    ablation: any content (vs collab + popularity) cold N=20  0.0008       0.4   -0.0000    0.0021                 0                0
+       standalone content: plots added to metadata    random  0.0116       8.3    0.0105    0.0124                 5                0
+       standalone content: plots added to metadata  temporal  0.0063      10.1    0.0063    0.0063                 5                0
+       standalone content: plots added to metadata  cold N=3  0.0087      23.7    0.0077    0.0105                 5                0
+       standalone content: plots added to metadata  cold N=5  0.0077      16.9    0.0058    0.0092                 5                0
+       standalone content: plots added to metadata cold N=10  0.0115      17.6    0.0100    0.0127                 5                0
+       standalone content: plots added to metadata cold N=20  0.0127      14.8    0.0082    0.0165                 5                0
+
+Beyond-accuracy @10 (random split, mean over seeds):
+                     ndcg@10  coverage@10  gini@10  long_tail@10  pop_pct@10  novelty@10  ild@10  personal@10
+variant                                                                                                      
+alone_content_both     0.152        0.180    0.965         0.118       0.912       2.959   0.493        0.941
+alone_content_meta     0.140        0.223    0.960         0.191       0.881       3.244   0.474        0.943
+alone_content_plot     0.081        0.062    0.992         0.000       0.961       2.574   0.702        0.750
+alone_ials             0.351        0.252    0.929         0.013       0.960       2.438   0.605        0.974
+alone_most_popular     0.173        0.019    0.995         0.000       0.998       1.533   0.650        0.628
+alone_svd              0.237        0.135    0.969         0.002       0.979       2.162   0.722        0.948
+collab_ials_only       0.358        0.239    0.933         0.011       0.962       2.409   0.591        0.972
+collab_svd_only        0.262        0.144    0.967         0.004       0.977       2.176   0.682        0.950
+content_meta_only      0.366        0.211    0.948         0.009       0.967       2.318   0.604        0.964
+content_plot_only      0.354        0.180    0.955         0.004       0.971       2.286   0.642        0.959
+final                  0.367        0.202    0.950         0.006       0.969       2.297   0.615        0.964
+gamma_1.0              0.368        0.202    0.950         0.006       0.969       2.296   0.616        0.964
+no_content             0.363        0.211    0.949         0.006       0.969       2.302   0.641        0.964
+no_fading_gamma_1.0    0.368        0.202    0.949         0.006       0.969       2.302   0.616        0.964
+no_gating              0.367        0.231    0.942         0.013       0.964       2.379   0.608        0.968
+original_system        0.252        0.224    0.958         0.041       0.948       2.470   0.676        0.958
+w_meta_0.8             0.368        0.206    0.949         0.007       0.969       2.305   0.610        0.964
+
+Beyond-accuracy @10 (temporal split):
+                     ndcg@10  coverage@10  gini@10  long_tail@10  pop_pct@10  novelty@10  ild@10  personal@10
+variant                                                                                                      
+alone_content_both     0.069        0.178    0.964         0.111       0.911       2.945   0.497        0.944
+alone_content_meta     0.062        0.215    0.960         0.190       0.877       3.276   0.479        0.944
+alone_content_plot     0.052        0.058    0.992         0.000       0.962       2.481   0.698        0.760
+alone_ials             0.110        0.289    0.917         0.021       0.954       2.455   0.612        0.978
+alone_most_popular     0.092        0.032    0.994         0.000       0.997       1.401   0.633        0.675
+alone_svd              0.118        0.157    0.965         0.003       0.976       2.129   0.714        0.954
+collab_ials_only       0.114        0.275    0.922         0.017       0.956       2.420   0.600        0.977
+collab_svd_only        0.123        0.159    0.963         0.003       0.975       2.141   0.679        0.957
+content_meta_only      0.133        0.240    0.938         0.012       0.962       2.321   0.612        0.970
+content_plot_only      0.130        0.208    0.949         0.007       0.967       2.269   0.648        0.964
+final                  0.134        0.233    0.941         0.009       0.964       2.292   0.623        0.969
+gamma_1.0              0.133        0.232    0.940         0.009       0.964       2.292   0.624        0.969
+no_content             0.129        0.245    0.939         0.011       0.964       2.305   0.646        0.969
+no_fading_gamma_1.0    0.134        0.233    0.940         0.009       0.964       2.299   0.623        0.969
+no_gating              0.131        0.267    0.930         0.019       0.957       2.397   0.614        0.973
+original_system        0.119        0.236    0.952         0.050       0.939       2.512   0.668        0.963
+w_meta_0.8             0.133        0.237    0.939         0.010       0.963       2.303   0.618        0.970

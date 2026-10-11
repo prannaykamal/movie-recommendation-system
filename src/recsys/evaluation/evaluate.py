@@ -14,6 +14,7 @@ from scipy import sparse
 from recsys.config import Config
 from recsys.data import loaders
 from recsys.data.interactions import Index, build_index, minmax_rows, rating_matrix
+from recsys.evaluation.beyond import beyond_accuracy
 from recsys.evaluation.metrics import ranking_metrics
 from recsys.evaluation.split import random_split, temporal_split, truncate_history
 from recsys.features.metadata import build_metadata_matrix
@@ -37,6 +38,13 @@ class Data:
     index: Index
     meta_vecs: sparse.csr_matrix
     plot_vecs: np.ndarray
+
+
+def genre_matrix(items: pd.DataFrame) -> np.ndarray:
+    """(n_items, n_genres) 0/1 matrix of MovieLens genres, in item-index order."""
+    genres = items.sort_values("idx")["genres"].str.split("|")
+    names = sorted({g for gs in genres for g in gs})
+    return np.array([[g in gs for g in names] for gs in genres], dtype=np.float32)
 
 
 def load_data(cfg: Config) -> Data:
@@ -91,6 +99,12 @@ def popularity_prior(f: Fitted) -> np.ndarray:
     return minmax_rows(f.item_scores["most_popular"][None, :].astype(np.float32))[0]
 
 
+def popularity_penalty(f: Fitted) -> np.ndarray:
+    """P(i) = min-max scaled log(1 + training count); subtracted (times cfg.pop_penalty) to trade
+    accuracy for catalogue exposure."""
+    return minmax_rows(np.log1p(f.item_scores["most_popular"])[None, :].astype(np.float32))[0]
+
+
 def score_batch(f: Fitted, uidx: np.ndarray, cfg: Config, models, rng) -> dict[str, np.ndarray]:
     """Score matrices (len(uidx) x n_items) for the requested models."""
     out = {}
@@ -117,6 +131,8 @@ def score_batch(f: Fitted, uidx: np.ndarray, cfg: Config, models, rng) -> dict[s
         elif m == "hybrid_dynamic":
             out[m] = DynamicHybridRecommender(cfg.alpha_max, cfg.gamma, cfg.pop_eta).blend(
                 f.n_u[uidx], content, collab, popularity_prior(f))
+            if cfg.pop_penalty:
+                out[m] = out[m] - cfg.pop_penalty * popularity_penalty(f)
     return out
 
 
@@ -143,11 +159,16 @@ def evaluate_models(data: Data, train: pd.DataFrame, test: pd.DataFrame, cfg: Co
     uidx = np.array(sorted(rel) if users is None else [u for u in users if u in rel], dtype=np.int64)
     relevant = [rel[u] for u in uidx]
     recs = rank_users(f, uidx, cfg, models, max(cfg.ks))
+    k_beyond = 10 if 10 in cfg.ks else max(cfg.ks)
+    counts = f.item_scores["most_popular"]
+    genres = genre_matrix(data.items)
+    n_train_users = int((f.n_u > 0).sum())
     rows = []
     for m in models:
         row = {"model": m, "users": len(uidx)}
         for k in cfg.ks:
             row.update(ranking_metrics(recs[m], relevant, k))
+        row.update(beyond_accuracy(recs[m], counts, n_train_users, genres, k_beyond, seed=cfg.seed))
         rows.append(row)
     return pd.DataFrame(rows)
 

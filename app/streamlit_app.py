@@ -26,6 +26,9 @@ k = st.sidebar.slider("Top-K", 5, 30, 10)
 alpha_max = st.sidebar.slider("α_max (collaborative ceiling)", 0.0, 1.0, float(svc.params["alpha_max"]), 0.05)
 gamma = st.sidebar.slider("γ (collaborative ramp-up)", 0.01, 1.0, float(svc.params["gamma"]), 0.01)
 pop_eta = st.sidebar.slider("η (popularity fade-out)", 0.05, 1.0, float(svc.params.get("pop_eta") or 1.0), 0.05)
+pop_penalty = st.sidebar.slider("Discovery (popularity penalty λ)", 0.0, 0.4, float(svc.params.get("pop_penalty", 0.0)),
+                                0.05, help="Pushes down blockbusters. 0.1–0.3 widens catalogue coverage by 10–40% "
+                                           "for a 0–4% drop in offline accuracy; beyond ~0.4 accuracy collapses.")
 st.sidebar.caption("Score = β·popular + (1 − β)·[α·collab + (1 − α)·content]")
 st.sidebar.caption("α(u) = α_max·(1 − e^(−γ·N_u)),  β(u) = e^(−η·N_u)")
 n_axis = np.arange(0, 41)
@@ -80,7 +83,7 @@ with tab_existing:
                      use_container_width=True)
     with right:
         st.subheader("Recommendations")
-        recs, weights = svc.recommend_existing(int(user_id), k, alpha_max, gamma, pop_eta)
+        recs, weights = svc.recommend_existing(int(user_id), k, alpha_max, gamma, pop_eta, pop_penalty)
         show_recs(recs, weights, svc.R[svc.index.uidx(int(user_id))].nnz)
 
 with tab_new:
@@ -115,5 +118,5 @@ with tab_new:
                 st.rerun()
     with right:
         st.subheader("Recommendations")
-        recs, weights = svc.recommend_new(ratings, genres, k, alpha_max, gamma, pop_eta)
+        recs, weights = svc.recommend_new(ratings, genres, k, alpha_max, gamma, pop_eta, pop_penalty)
         show_recs(recs, weights, len(ratings))

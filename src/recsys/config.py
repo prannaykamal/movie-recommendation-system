@@ -55,6 +55,9 @@ class Config:
     gamma: float = 0.15
     # fading popularity prior beta(u) = exp(-pop_eta * N_u); None = popularity only at N_u = 0
     pop_eta: float | None = 0.2
+    # optional exposure knob: final score - pop_penalty * minmax(log(1 + count)). 0 = off (accuracy-optimal);
+    # 0.1-0.3 buys +10-40% catalogue coverage for 0-4% NDCG@10 (experiments/exp9_popularity_tradeoff.py)
+    pop_penalty: float = 0.0
     # alignment
     fuzzy_threshold: float = 0.90
     # evaluation

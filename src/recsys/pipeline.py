@@ -13,7 +13,7 @@ from recsys.evaluation.evaluate import fit_models, load_data
 log = logging.getLogger(__name__)
 
 PARAM_KEYS = ("n_components", "mean_shrinkage", "w_meta", "w_plot", "content_pop_gate", "ials_weight", "ials_factors",
-              "ials_reg", "ials_confidence", "ials_iters", "alpha_max", "gamma", "pop_eta",
+              "ials_reg", "ials_confidence", "ials_iters", "alpha_max", "gamma", "pop_eta", "pop_penalty",
               "pos_threshold", "bayes_prior")
 
 
