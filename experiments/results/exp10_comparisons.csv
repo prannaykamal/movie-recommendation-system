@@ -1,0 +1,10 @@
+variant,reference,diff,seeds_sig_better,seeds_sig_worse,rel_diff_%
+content: meta .35 / plot .65 (design doc),content: meta only,-0.036157925412253364,0,5,-18.914056051232546
+content: meta .5 / plot .5,content: meta only,-0.014439039093683844,1,3,-7.552999560404109
+content: meta .65 / centred plot .35,content: meta only,0.017554857083755305,5,0,9.182870617377938
+content: meta .65 / plot .35 (final),"content: final mix, popularity-gated (as deployed)",0.14825686687756545,5,0,371.07496767625673
+content: meta .65 / plot .35 (final),content: meta only,-0.0029593874297313316,1,3,-1.5480429002788607
+content: meta .65 / plot .35 (final),final system (as deployed),0.1452957388127468,5,0,338.57047291114856
+content: plot only,content: meta only,-0.13099380755546056,0,5,-68.52230016572581
+"content: plot only, centred",content: plot only,0.11171867468605357,5,0,185.653846863615
+"content: plot only, centred, max-sim",content: meta only,0.0012292414305687728,2,1,0.6430109319932388

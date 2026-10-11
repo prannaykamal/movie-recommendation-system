@@ -1,0 +1,121 @@
+seed,setting,variant,ndcg@10
+42,random,"hybrid, raw plots",0.36681592078040015
+42,random,"content alone, raw plots",0.15165542371761911
+42,random,"hybrid, centred plots",0.36734867491648215
+42,random,"content alone, centred plots",0.15948998270732082
+42,temporal,"hybrid, raw plots",0.13347455468091474
+42,temporal,"content alone, raw plots",0.06863950748580497
+42,temporal,"hybrid, centred plots",0.13519943431323023
+42,temporal,"content alone, centred plots",0.0721840655634709
+42,cold N=3,"hybrid, raw plots",0.08866056424648744
+42,cold N=3,"content alone, raw plots",0.0408624821281624
+42,cold N=3,"hybrid, centred plots",0.0890503564625
+42,cold N=3,"content alone, centred plots",0.038733908881138285
+42,cold N=5,"hybrid, raw plots",0.0931958679229767
+42,cold N=5,"content alone, raw plots",0.05236577553177651
+42,cold N=5,"hybrid, centred plots",0.09362263207665562
+42,cold N=5,"content alone, centred plots",0.05202131612559697
+42,cold N=10,"hybrid, raw plots",0.12824953946418932
+42,cold N=10,"content alone, raw plots",0.0774285336497904
+42,cold N=10,"hybrid, centred plots",0.1250273125959042
+42,cold N=10,"content alone, centred plots",0.0722696085850171
+42,cold N=20,"hybrid, raw plots",0.18623516474955598
+42,cold N=20,"content alone, raw plots",0.09434146276592043
+42,cold N=20,"hybrid, centred plots",0.18629367089471452
+42,cold N=20,"content alone, centred plots",0.08809521167449208
+43,random,"hybrid, raw plots",0.36735549387219035
+43,random,"content alone, raw plots",0.1516705560661417
+43,random,"hybrid, centred plots",0.3678898002312892
+43,random,"content alone, centred plots",0.15766346142551776
+43,temporal,"hybrid, raw plots",0.1341327111637891
+43,temporal,"content alone, raw plots",0.06863950748580497
+43,temporal,"hybrid, centred plots",0.13516125678017546
+43,temporal,"content alone, centred plots",0.0721840655634709
+43,cold N=3,"hybrid, raw plots",0.09108015141974966
+43,cold N=3,"content alone, raw plots",0.04417285662350225
+43,cold N=3,"hybrid, centred plots",0.09222720169681776
+43,cold N=3,"content alone, centred plots",0.04244679076282519
+43,cold N=5,"hybrid, raw plots",0.10079479595955097
+43,cold N=5,"content alone, raw plots",0.051344141918893665
+43,cold N=5,"hybrid, centred plots",0.10086848495311379
+43,cold N=5,"content alone, centred plots",0.04996222914509023
+43,cold N=10,"hybrid, raw plots",0.1278206072207107
+43,cold N=10,"content alone, raw plots",0.07153827383077074
+43,cold N=10,"hybrid, centred plots",0.1273224043032424
+43,cold N=10,"content alone, centred plots",0.06920855946752791
+43,cold N=20,"hybrid, raw plots",0.19551588112559867
+43,cold N=20,"content alone, raw plots",0.09120741310958531
+43,cold N=20,"hybrid, centred plots",0.1931791062824721
+43,cold N=20,"content alone, centred plots",0.09006138730778393
+44,random,"hybrid, raw plots",0.3678560584846849
+44,random,"content alone, raw plots",0.15152718337048066
+44,random,"hybrid, centred plots",0.3678376848101177
+44,random,"content alone, centred plots",0.15864838060092748
+44,temporal,"hybrid, raw plots",0.1338646595778794
+44,temporal,"content alone, raw plots",0.06863950748580497
+44,temporal,"hybrid, centred plots",0.13489655643869455
+44,temporal,"content alone, centred plots",0.0721840655634709
+44,cold N=3,"hybrid, raw plots",0.09373869346945356
+44,cold N=3,"content alone, raw plots",0.0446084556544716
+44,cold N=3,"hybrid, centred plots",0.0939679792473445
+44,cold N=3,"content alone, centred plots",0.04508888955580187
+44,cold N=5,"hybrid, raw plots",0.09943848832005966
+44,cold N=5,"content alone, raw plots",0.0529556594522914
+44,cold N=5,"hybrid, centred plots",0.09751583995021249
+44,cold N=5,"content alone, centred plots",0.054157485338214684
+44,cold N=10,"hybrid, raw plots",0.1331483824791026
+44,cold N=10,"content alone, raw plots",0.07445730868726459
+44,cold N=10,"hybrid, centred plots",0.13353684227343954
+44,cold N=10,"content alone, centred plots",0.07022189836386156
+44,cold N=20,"hybrid, raw plots",0.20045790398779964
+44,cold N=20,"content alone, raw plots",0.09784453855572506
+44,cold N=20,"hybrid, centred plots",0.19971005950246595
+44,cold N=20,"content alone, centred plots",0.09509871750466735
+45,random,"hybrid, raw plots",0.36720234783445743
+45,random,"content alone, raw plots",0.1512040307995833
+45,random,"hybrid, centred plots",0.3680049159888487
+45,random,"content alone, centred plots",0.15905689812002036
+45,temporal,"hybrid, raw plots",0.13345916881274042
+45,temporal,"content alone, raw plots",0.06863950748580497
+45,temporal,"hybrid, centred plots",0.13464898996330116
+45,temporal,"content alone, centred plots",0.0721840655634709
+45,cold N=3,"hybrid, raw plots",0.0965473898914921
+45,cold N=3,"content alone, raw plots",0.0494289018402464
+45,cold N=3,"hybrid, centred plots",0.09664274887467077
+45,cold N=3,"content alone, centred plots",0.049553175745012425
+45,cold N=5,"hybrid, raw plots",0.1011531151467985
+45,cold N=5,"content alone, raw plots",0.05571564710081564
+45,cold N=5,"hybrid, centred plots",0.10143130267572273
+45,cold N=5,"content alone, centred plots",0.05941088638649649
+45,cold N=10,"hybrid, raw plots",0.13465331482364817
+45,cold N=10,"content alone, raw plots",0.08311155105918958
+45,cold N=10,"hybrid, centred plots",0.13335422415277723
+45,cold N=10,"content alone, centred plots",0.07927973600146285
+45,cold N=20,"hybrid, raw plots",0.1959526877826296
+45,cold N=20,"content alone, raw plots",0.10702487096192502
+45,cold N=20,"hybrid, centred plots",0.19584735019113647
+45,cold N=20,"content alone, centred plots",0.10114497774732031
+46,random,"hybrid, raw plots",0.36815173014066854
+46,random,"content alone, raw plots",0.15285104793093032
+46,random,"hybrid, centred plots",0.36866376689944247
+46,random,"content alone, centred plots",0.16154481601444062
+46,temporal,"hybrid, raw plots",0.1326956952888286
+46,temporal,"content alone, raw plots",0.06863950748580497
+46,temporal,"hybrid, centred plots",0.1336000501032662
+46,temporal,"content alone, centred plots",0.0721840655634709
+46,cold N=3,"hybrid, raw plots",0.0970837900959342
+46,cold N=3,"content alone, raw plots",0.047903333339267024
+46,cold N=3,"hybrid, centred plots",0.09820483982586013
+46,cold N=3,"content alone, centred plots",0.04848568861722006
+46,cold N=5,"hybrid, raw plots",0.09887752573486254
+46,cold N=5,"content alone, raw plots",0.05446317316904226
+46,cold N=5,"hybrid, centred plots",0.09922037750432205
+46,cold N=5,"content alone, centred plots",0.055960865401529856
+46,cold N=10,"hybrid, raw plots",0.1311146211024132
+46,cold N=10,"content alone, raw plots",0.07728530580657703
+46,cold N=10,"hybrid, centred plots",0.13319021844761772
+46,cold N=10,"content alone, centred plots",0.076161205409139
+46,cold N=20,"hybrid, raw plots",0.1953988508552802
+46,cold N=20,"content alone, raw plots",0.10419064395959775
+46,cold N=20,"hybrid, centred plots",0.19455077603210216
+46,cold N=20,"content alone, centred plots",0.09944335023628857

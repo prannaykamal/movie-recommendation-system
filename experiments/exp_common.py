@@ -30,7 +30,7 @@ pd.set_option("display.width", 220)
 RESULTS = Path(__file__).resolve().parent / "results"
 RESULTS.mkdir(exist_ok=True)
 CFG = replace(Config(), n_components=32, w_meta=0.5, w_plot=0.5, alpha_max=0.8, gamma=1.0,
-              content_pop_gate=False, ials_weight=0.0, pop_eta=None)
+              content_pop_gate=False, ials_weight=0.0, pop_eta=None, center_plots=False, pop_penalty=0.0)
 DATA = load_data(CFG)
 IDX = DATA.index
 

@@ -15,7 +15,7 @@ from exp_common import *
 from recsys.evaluation.evaluate import collab_scores, fit_models as fit
 # the system as it stood before this experiment (suggestions 1, 2 and 5 accepted, tuned params)
 CUR = replace(Config(), n_components=32, w_meta=0.65, w_plot=0.35, ials_weight=0.5, alpha_max=0.8, gamma=1.0,
-              pop_eta=None)
+              pop_eta=None, center_plots=False, pop_penalty=0.0)
 ETAS = (0.1, 0.2, 0.3, 0.4, 0.6, 0.8, 1.0, np.inf)  # inf = beta 0 for N >= 1 (current system)
 GAMMAS = (0.15, 0.3, 1.0)
 print("current params:", {k: getattr(CUR, k) for k in ("w_meta", "ials_weight", "alpha_max", "gamma")})

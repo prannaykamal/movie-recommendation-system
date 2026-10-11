@@ -39,6 +39,7 @@ class Config:
     w_plot: float = 0.2
     pos_threshold: float = 4.0
     content_pop_gate: bool = True  # S_content * log(1 + item interactions)
+    center_plots: bool = True      # mean-centre SBERT plot embeddings (essential for item cold start)
     sbert_model: str = "all-MiniLM-L6-v2"
     chunk_words: int = 150
     top_cast: int = 5
@@ -57,7 +58,7 @@ class Config:
     pop_eta: float | None = 0.2
     # optional exposure knob: final score - pop_penalty * minmax(log(1 + count)). 0 = off (accuracy-optimal);
     # 0.1-0.3 buys +10-40% catalogue coverage for 0-4% NDCG@10 (experiments/exp9_popularity_tradeoff.py)
-    pop_penalty: float = 0.0
+    pop_penalty: float = 0.2
     # alignment
     fuzzy_threshold: float = 0.90
     # evaluation

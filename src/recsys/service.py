@@ -28,7 +28,8 @@ class RecommenderService:
         self.content = ContentEngine(sparse.load_npz(a / "meta_vecs.npz"), np.load(a / "plot_emb.npy"),
                                      self.items["has_plot"].to_numpy(), self.params["w_meta"],
                                      self.params["w_plot"], self.params["pos_threshold"],
-                                     item_counts=counts if self.params.get("content_pop_gate", True) else None)
+                                     item_counts=counts if self.params.get("content_pop_gate", True) else None,
+                                     center_plots=self.params.get("center_plots", False))
         self.popularity = minmax_rows(counts[None, :].astype(np.float32))[0]
         self.log_popularity = minmax_rows(np.log1p(counts)[None, :].astype(np.float32))[0]
         self.genres = sorted({g for gs in self.items["genres"] for g in gs.split("|")})

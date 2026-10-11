@@ -161,3 +161,31 @@ def test_explain_reports_final_scores():
     e = h.explain(4, content, collab, np.array([0, 1]), pop)
     expected = h.blend(np.array([4]), content[None], collab[None], pop)[0]
     assert e["s_hybrid"].to_numpy() == pytest.approx(expected, abs=1e-6)
+
+
+def test_center_embeddings_removes_shared_direction():
+    from recsys.features.plot_embed import center_embeddings
+    rng = np.random.default_rng(0)
+    shared = np.ones(8, dtype=np.float32) * 3          # every raw vector points mostly the same way
+    E = shared + rng.normal(0, 0.3, (50, 8)).astype(np.float32)
+    E /= np.linalg.norm(E, axis=1, keepdims=True)
+    has = np.ones(50, bool)
+    has[-1] = False
+    C = center_embeddings(E, has)
+    assert np.allclose(np.linalg.norm(C[:-1], axis=1), 1.0, atol=1e-5)
+    assert np.all(C[-1] == 0)                          # no plot -> stays zero
+    raw_cos = (E[:-1] @ E[:-1].T)[np.triu_indices(49, 1)].mean()
+    cen_cos = (C[:-1] @ C[:-1].T)[np.triu_indices(49, 1)].mean()
+    assert raw_cos > 0.9 and abs(cen_cos) < 0.1        # compressed cone -> spread out
+
+
+def test_content_engine_center_flag_only_changes_plot_channel():
+    meta = sparse.csr_matrix(np.eye(4, dtype=np.float32))
+    plot = np.array([[1, 0.1], [1, 0.2], [1, -0.1], [0, 0]], dtype=np.float32)
+    plot /= np.maximum(np.linalg.norm(plot, axis=1, keepdims=True), 1e-9)
+    has = np.array([1, 1, 1, 0], bool)
+    raw = ContentEngine(meta, plot, has, center_plots=False)
+    cen = ContentEngine(meta, plot, has, center_plots=True)
+    R = sparse.csr_matrix(np.array([[5, 0, 0, 0]], dtype=np.float32))
+    assert np.allclose(raw.channel_scores(R)[0], cen.channel_scores(R)[0])       # metadata identical
+    assert not np.allclose(np.nan_to_num(raw.channel_scores(R)[1]), np.nan_to_num(cen.channel_scores(R)[1]))

@@ -26,9 +26,9 @@ k = st.sidebar.slider("Top-K", 5, 30, 10)
 alpha_max = st.sidebar.slider("α_max (collaborative ceiling)", 0.0, 1.0, float(svc.params["alpha_max"]), 0.05)
 gamma = st.sidebar.slider("γ (collaborative ramp-up)", 0.01, 1.0, float(svc.params["gamma"]), 0.01)
 pop_eta = st.sidebar.slider("η (popularity fade-out)", 0.05, 1.0, float(svc.params.get("pop_eta") or 1.0), 0.05)
-pop_penalty = st.sidebar.slider("Discovery (popularity penalty λ)", 0.0, 0.4, float(svc.params.get("pop_penalty", 0.0)),
+pop_penalty = st.sidebar.slider("Discovery (popularity penalty λ)", 0.0, 0.5, float(svc.params.get("pop_penalty", 0.0)),
                                 0.05, help="Pushes down blockbusters. 0.1–0.3 widens catalogue coverage by 10–40% "
-                                           "for a 0–4% drop in offline accuracy; beyond ~0.4 accuracy collapses.")
+                                           "for a 0–4% drop in offline accuracy; near 0.5 accuracy collapses.")
 st.sidebar.caption("Score = β·popular + (1 − β)·[α·collab + (1 − α)·content]")
 st.sidebar.caption("α(u) = α_max·(1 − e^(−γ·N_u)),  β(u) = e^(−η·N_u)")
 n_axis = np.arange(0, 41)

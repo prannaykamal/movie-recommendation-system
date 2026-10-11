@@ -71,7 +71,7 @@ def fit_models(data: Data, train: pd.DataFrame, cfg: Config) -> Fitted:
     counts = baselines.most_popular(R)
     content = ContentEngine(data.meta_vecs, data.plot_vecs, data.items["has_plot"].to_numpy(),
                             cfg.w_meta, cfg.w_plot, cfg.pos_threshold,
-                            item_counts=counts if cfg.content_pop_gate else None)
+                            item_counts=counts if cfg.content_pop_gate else None, center_plots=cfg.center_plots)
     collab = CollaborativeEngine(cfg.n_components, cfg.seed, cfg.mean_shrinkage).fit(R)
     ials = (IALSEngine(cfg.ials_factors, cfg.ials_reg, cfg.ials_confidence, cfg.ials_iters, cfg.seed).fit(R)
             if cfg.ials_weight > 0 else None)

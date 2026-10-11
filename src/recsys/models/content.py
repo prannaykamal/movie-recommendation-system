@@ -4,16 +4,17 @@ from scipy import sparse
 from sklearn.preprocessing import normalize
 
 from recsys.data.interactions import minmax_rows
+from recsys.features.plot_embed import center_embeddings
 
 
 class ContentEngine:
     def __init__(self, meta_vecs: sparse.csr_matrix, plot_vecs: np.ndarray, has_plot: np.ndarray,
                  meta_weight: float = 0.35, plot_weight: float = 0.65, pos_threshold: float = 4.0,
-                 item_counts: np.ndarray | None = None):
+                 item_counts: np.ndarray | None = None, center_plots: bool = False):
         # Both channels are row L2-normalised, so cosine(profile, item) = item . profile_unit.
         self.meta_vecs = normalize(meta_vecs.tocsr())
-        self.plot_vecs = plot_vecs.astype(np.float32)
         self.has_plot = np.asarray(has_plot, dtype=bool)
+        self.plot_vecs = center_embeddings(plot_vecs, self.has_plot) if center_plots else plot_vecs.astype(np.float32)
         self.meta_weight = meta_weight
         self.plot_weight = plot_weight
         self.pos_threshold = pos_threshold

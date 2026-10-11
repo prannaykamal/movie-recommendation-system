@@ -1,0 +1,49 @@
+seed 42 random done
+seed 42 temporal done
+seed 42 cold N=3 done
+seed 42 cold N=5 done
+seed 42 cold N=10 done
+seed 42 cold N=20 done
+seed 43 random done
+seed 43 temporal done
+seed 43 cold N=3 done
+seed 43 cold N=5 done
+seed 43 cold N=10 done
+seed 43 cold N=20 done
+seed 44 random done
+seed 44 temporal done
+seed 44 cold N=3 done
+seed 44 cold N=5 done
+seed 44 cold N=10 done
+seed 44 cold N=20 done
+seed 45 random done
+seed 45 temporal done
+seed 45 cold N=3 done
+seed 45 cold N=5 done
+seed 45 cold N=10 done
+seed 45 cold N=20 done
+seed 46 random done
+seed 46 temporal done
+seed 46 cold N=3 done
+seed 46 cold N=5 done
+seed 46 cold N=10 done
+seed 46 cold N=20 done
+setting                       random  temporal  cold N=3  cold N=5  cold N=10  cold N=20
+variant                                                                                 
+content alone, centred plots  0.1593    0.0722    0.0449    0.0543     0.0734     0.0948
+content alone, raw plots      0.1518    0.0686    0.0454    0.0534     0.0768     0.0989
+hybrid, centred plots         0.3679    0.1347    0.0940    0.0985     0.1305     0.1939
+hybrid, raw plots             0.3675    0.1335    0.0934    0.0987     0.1310     0.1947
+                   comparison   setting    diff  sig_better  sig_worse   rel_%
+content alone: centred vs raw cold N=10 -0.0033           0          3 -4.3458
+content alone: centred vs raw cold N=20 -0.0042           0          3 -4.1983
+content alone: centred vs raw  cold N=3 -0.0005           0          0 -1.1753
+content alone: centred vs raw  cold N=5  0.0009           1          0  1.7495
+content alone: centred vs raw    random  0.0075           5          0  4.9407
+content alone: centred vs raw  temporal  0.0035           5          0  5.1640
+       hybrid: centred vs raw cold N=10 -0.0005           0          1 -0.3902
+       hybrid: centred vs raw cold N=20 -0.0008           0          0 -0.4088
+       hybrid: centred vs raw  cold N=3  0.0006           0          0  0.6385
+       hybrid: centred vs raw  cold N=5 -0.0002           0          0 -0.1624
+       hybrid: centred vs raw    random  0.0005           0          0  0.1286
+       hybrid: centred vs raw  temporal  0.0012           4          0  0.8807

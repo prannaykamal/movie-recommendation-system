@@ -26,7 +26,7 @@ from recsys.models.content import ContentEngine
 SEEDS = (42, 43, 44, 45, 46)
 COLD_NS = (3, 5, 10, 20)
 FINAL = replace(Config(), n_components=32, w_meta=0.65, w_plot=0.35, content_pop_gate=True, ials_weight=0.5,
-                alpha_max=0.8, gamma=0.15, pop_eta=0.2)
+                alpha_max=0.8, gamma=0.15, pop_eta=0.2, center_plots=False, pop_penalty=0.0)
 GENRES = genre_matrix(DATA.items)
 PER_USER = RESULTS / "exp8_per_user.parquet"
 BEYOND = RESULTS / "exp8_beyond.csv"
