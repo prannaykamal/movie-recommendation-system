@@ -5,10 +5,14 @@ from dataclasses import asdict, replace
 
 import joblib
 import numpy as np
+import pandas as pd
 from scipy import sparse
+from sklearn.preprocessing import normalize
 
 from recsys.config import Config
 from recsys.evaluation.evaluate import fit_models, load_data
+from recsys.features.metadata import build_metadata_matrix, metadata_tokens
+from recsys.features.plot_embed import encode_plots
 
 log = logging.getLogger(__name__)
 
@@ -49,4 +53,22 @@ def train(cfg: Config | None = None) -> None:
     if f.ials is not None:
         joblib.dump(f.ials, out / "ials.joblib")
     (out / "model_params.json").write_text(json.dumps(_params(cfg), indent=2))
+    save_fresh_items(cfg, data)
     log.info("artifacts written to %s", out)
+
+
+def save_fresh_items(cfg: Config, data) -> None:
+    """Features for catalogue movies with no ratings ("Fresh Discoveries"): metadata projected with
+    the vocabulary/IDF fitted on the rated catalogue, and SBERT plot embeddings (raw; the content
+    engine centres them on the catalogue's mean at serving time)."""
+    if not cfg.paths.fresh_items.exists():
+        log.info("no fresh_items.parquet; run `recsys.cli align` to enable Fresh Discoveries")
+        return
+    fresh = pd.read_parquet(cfg.paths.fresh_items)
+    out = cfg.paths.artifacts
+    _, vec = build_metadata_matrix(data.items)
+    meta = normalize(vec.transform(fresh.apply(metadata_tokens, axis=1)).astype("float32")).tocsr()
+    plots = encode_plots(fresh, cfg.sbert_model, cfg.chunk_words, out / "fresh_plot_emb.npy")
+    fresh.to_parquet(out / "fresh_items.parquet", index=False)
+    sparse.save_npz(out / "fresh_meta_vecs.npz", meta)
+    log.info("fresh movies: %d (%d with plots)", len(fresh), int(fresh["has_plot"].sum()))

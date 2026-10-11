@@ -81,6 +81,7 @@ def run(seed):
     variants["content: plot only, centred"] = lambda b: plot_only(engine(0.0, 1.0, False, E_C), R[b])
     variants["content: plot only, centred, max-sim"] = lambda b: max_sim(R[b], cold, E_C)
     variants["content: meta .65 / centred plot .35"] = lambda b: engine(0.65, 0.35, False, E_C).score(R[b])
+    variants["content: meta .5 / centred plot .5"] = lambda b: engine(0.5, 0.5, False, E_C).score(R[b])
     variants["content: final mix, popularity-gated (as deployed)"] = lambda b: engine(0.65, 0.35, True).score(R[b])
 
     f = fit_models(DATA, train, replace(FINAL, seed=seed))
@@ -118,6 +119,7 @@ pairs = [("content: meta .65 / plot .35 (final)", "content: meta only"),
          ("content: plot only, centred", "content: plot only"),
          ("content: plot only, centred, max-sim", "content: meta only"),
          ("content: meta .65 / centred plot .35", "content: meta only"),
+         ("content: meta .5 / centred plot .5", "content: meta only"),
          ("content: meta .65 / plot .35 (final)", "content: final mix, popularity-gated (as deployed)"),
          ("content: meta .65 / plot .35 (final)", "final system (as deployed)")]
 for seed in SEEDS:

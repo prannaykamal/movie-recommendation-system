@@ -66,6 +66,31 @@ def show_recs(recs: pd.DataFrame, w: dict, n_u: int) -> None:
             st.markdown(f"**{r['title']}** — {snippet}")
 
 
+FRESH_COLS = {
+    "title": st.column_config.TextColumn("Title", width="large"),
+    "genres": st.column_config.TextColumn("Genres"),
+    "match": st.column_config.ProgressColumn("Match", min_value=0.0, max_value=1.0, format="%.2f",
+                                             help="Similarity to your taste (metadata + plot), "
+                                                  "scaled within these new additions"),
+}
+
+
+def show_fresh(fresh: pd.DataFrame) -> None:
+    st.subheader("Fresh Discoveries (New Additions)")
+    st.caption("Movies in the catalogue with no ratings yet. Collaborative filtering can't see them, so they "
+               "are matched to your taste by plot and metadata alone, and kept out of the main list above.")
+    if fresh.empty:
+        st.info("Rate a movie or pick a genre to get fresh picks.")
+        return
+    st.dataframe(fresh[list(FRESH_COLS)], column_config=FRESH_COLS, hide_index=True, use_container_width=True)
+    with st.expander("Plot summaries (new additions)"):
+        for _, r in fresh.iterrows():
+            plot = r["plot_summary"]
+            snippet = (plot[:300] + "…") if isinstance(plot, str) and len(plot) > 300 else \
+                (plot if isinstance(plot, str) else "_No plot available; matched on genres and metadata._")
+            st.markdown(f"**{r['title']}**: {snippet}")
+
+
 st.title("🎬 Hybrid Movie Recommender")
 st.caption("MovieLens 1M ratings + CMU Wikipedia plots · popularity-gated content (TF-IDF metadata + Sentence-BERT "
            "plots) and collaborative filtering (mean-centred SVD + implicit ALS), blended by interaction-driven weights; "
@@ -85,6 +110,7 @@ with tab_existing:
         st.subheader("Recommendations")
         recs, weights = svc.recommend_existing(int(user_id), k, alpha_max, gamma, pop_eta, pop_penalty)
         show_recs(recs, weights, svc.R[svc.index.uidx(int(user_id))].nnz)
+        show_fresh(svc.get_cold_start_recommendations(user_id=int(user_id), k=k))
 
 with tab_new:
     ratings: dict = st.session_state.setdefault("new_ratings", {})
@@ -120,3 +146,4 @@ with tab_new:
         st.subheader("Recommendations")
         recs, weights = svc.recommend_new(ratings, genres, k, alpha_max, gamma, pop_eta, pop_penalty)
         show_recs(recs, weights, len(ratings))
+        show_fresh(svc.get_cold_start_recommendations(ratings=ratings, genres=genres, k=k))

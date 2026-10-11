@@ -189,3 +189,40 @@ def test_content_engine_center_flag_only_changes_plot_channel():
     R = sparse.csr_matrix(np.array([[5, 0, 0, 0]], dtype=np.float32))
     assert np.allclose(raw.channel_scores(R)[0], cen.channel_scores(R)[0])       # metadata identical
     assert not np.allclose(np.nan_to_num(raw.channel_scores(R)[1]), np.nan_to_num(cen.channel_scores(R)[1]))
+
+
+def _toy_content_engine(**kw):
+    meta = sparse.csr_matrix(np.array([[1, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]], dtype=np.float32))
+    plot = np.array([[1, 0], [0.9, 0.3], [0, 1], [0, 0]], dtype=np.float32)
+    plot /= np.maximum(np.linalg.norm(plot, axis=1, keepdims=True), 1e-9)
+    has = np.array([1, 1, 1, 0], bool)
+    return ContentEngine(meta, plot, has, 0.5, 0.5, **kw), meta, plot, has
+
+
+@pytest.mark.parametrize("center", [False, True])
+def test_score_items_on_own_catalogue_matches_ungated_score(center):
+    eng, meta, plot, has = _toy_content_engine(center_plots=center)
+    R = sparse.csr_matrix(np.array([[5, 0, 0, 0], [0, 4, 5, 0]], dtype=np.float32))
+    np.testing.assert_allclose(eng.score_items(R, meta, plot, has), eng.score(R), atol=1e-6)
+
+
+def test_score_items_ignores_popularity_gate_for_new_items():
+    eng, meta, plot, has = _toy_content_engine(item_counts=np.array([10, 10, 10, 10]))
+    R = sparse.csr_matrix(np.array([[5, 0, 0, 0]], dtype=np.float32))
+    new_meta = sparse.csr_matrix(np.array([[1, 0, 0], [0, 1, 0]], dtype=np.float32))
+    new_plot = np.array([[1, 0.05], [0, 1]], dtype=np.float32)
+    s = eng.score_items(R, new_meta, new_plot, np.array([1, 1], bool))[0]
+    assert s[0] > s[1] and s.max() == pytest.approx(1.0)   # zero-count items still ranked by taste
+
+
+def test_imputation_stops_plotless_items_winning_by_default():
+    eng, meta, plot, has = _toy_content_engine()
+    R = sparse.csr_matrix(np.array([[5, 0, 0, 0]], dtype=np.float32))
+    # candidates: same genre as the liked movie; one has a matching plot, one has no plot at all
+    new_meta = sparse.csr_matrix(np.array([[1, 0, 0], [1, 0, 0], [0, 1, 0]], dtype=np.float32))
+    new_plot = np.array([[0.95, 0.1], [0, 0], [0, 1]], dtype=np.float32)
+    new_has = np.array([1, 0, 1], bool)
+    plain = eng.score_items(R, new_meta, new_plot, new_has)[0]
+    imputed = eng.score_items(R, new_meta, new_plot, new_has, impute_missing_plot=True)[0]
+    assert plain[1] >= plain[0]          # metadata-only fallback lets the plot-less movie tie or win
+    assert imputed[0] > imputed[1]       # with a neutral plot score the plot match wins

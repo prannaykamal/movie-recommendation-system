@@ -5,6 +5,7 @@ This project implements the system described in
 - **Content engine:** TF-IDF metadata vectors plus mean-centred Sentence-BERT (`all-MiniLM-L6-v2`) embeddings of the Wikipedia plots. Scores are popularity-gated.
 - **Collaborative engine:** an equal-weight ensemble of TruncatedSVD on mean-centred ratings and implicit ALS (iALS).
 - **Blend:** the two scores are combined with a dynamic weight α(u) = α_max · (1 − e^(−γ·N_u)). A popularity prior carries new users and fades out as β(u) = e^(−η·N_u); it can be boosted by the genres a new user picks. A small popularity penalty (λ = 0.2) widens catalogue coverage.
+- **Fresh Discoveries:** a separate row for movies with no ratings at all, ranked by metadata and plot similarity alone. Collaborative filtering cannot see these movies.
 - **Evaluation:** offline comparison against baselines.
 
 ## Setup
@@ -29,9 +30,9 @@ pytest
 | Step | What it does | Output |
 | --- | --- | --- |
 | `extract` | Unpacks both archives | `data/raw/` |
-| `align` | Matches MovieLens movies to CMU plots (title + year, then a guarded fuzzy pass) | `data/processed/items.parquet` |
+| `align` | Matches MovieLens movies to CMU plots (title + year, then a guarded fuzzy pass) | `data/processed/items.parquet` (rated movies), `fresh_items.parquet` (the 177 unrated ones) |
 | `embed` | Encodes plots with SBERT in chunks and caches the result. Takes about 11 minutes on CPU | `artifacts/plot_emb.npy` |
-| `train` | Fits every engine on all ratings | `artifacts/*` |
+| `train` | Fits every engine on all ratings and builds the Fresh Discoveries features | `artifacts/*` |
 | `evaluate` | Runs baselines and models on random and temporal 80/20 splits | `artifacts/eval_results.{csv,md}` |
 | `coldstart` | Cuts 1,000 users' history down to N ratings, refits and evaluates | `artifacts/coldstart_results.{csv,md}` |
 | `tune` | Grid search on validation splits carved from train: blend weights first, then γ and η on truncated histories | `artifacts/tuning_results.csv`, `best_params.json` |
@@ -65,7 +66,8 @@ notebooks/01_eda.ipynb
 9. **Damped user mean in the SVD.** Each user's mean is shrunk toward the global mean with 5 pseudo-ratings. Otherwise a new user who rates everything 5★ would have an all-zero centred row, and fold-in would return nothing.
 10. **New users.** The final score is β(u)·S_popular + (1 − β(u))·S_hybrid, with β(u) = e^(−η·N_u). So a user with no ratings gets pure most-popular, boosted by any genres picked in the app as pop · (1 + genre match). Popularity keeps a large share for the first few ratings. New users get collaborative scores by fold-in: p_u = r̃_u·Q for SVD, and the exact ALS user step for iALS.
 11. **No leakage.** User means, the SVD, iALS, content profiles, the popularity gate and N_u are all fitted on the training split only.
-12. **Collaborative engine and content weights.** These follow the evaluated improvements below: an equal-weight SVD + iALS ensemble, popularity-gated content, and w_meta / w_plot = 0.65 / 0.35 instead of the document's 0.35 / 0.65. Inside the hybrid, metadata matters more than plots (see *What the content channels contribute*).
+12. **Collaborative engine and content weights.** These follow the evaluated improvements below: an equal-weight SVD + iALS ensemble, popularity-gated content, centred plot embeddings, and w_meta / w_plot = 0.5 / 0.5 instead of the document's 0.35 / 0.65. Inside the hybrid, metadata matters more than plots (see *What the content channels contribute*).
+13. **New movies get their own row.** The ML-1M catalogue lists 3,883 movies, but only 3,706 have ratings. The other 177 are kept out of the model's item index and served in a *Fresh Discoveries* row via `RecommenderService.get_cold_start_recommendations()`. The row ranks them by ungated content similarity (metadata plus centred plots) to the user's profile, and a movie without a plot gets the user's median plot score. They never enter the main top-10, so its metrics are unaffected.
 
 ## Results
 
@@ -182,9 +184,20 @@ The setup is `experiments/exp10_item_cold_start.py`, run over 5 seeds:
 | Metadata 0.65 + raw plots 0.35 | 0.188 | −1.5% (3/5 worse) |
 | Metadata only | 0.191 | |
 | **Metadata 0.65 + centred plots 0.35** | **0.209** | **+9.2% (5/5 better)** |
+| Metadata 0.5 + centred plots 0.5 (deployed mix) | 0.208 | +8.9% (4/5 better) |
 | Deployed system before the fix (gated content + priors) | 0.043 | |
 
-**Raw embeddings were the problem.** Raw SBERT plots are almost useless for new movies, and adding them to metadata hurts. Once the embeddings are mean-centred, plots plus metadata beat metadata alone by 9% in every seed, so the Sentence-BERT step earns its cost as a cold-start safeguard. Centring is now on (`center_plots`). The mix was fixed in advance at 0.65 / 0.35, not tuned on these held-out movies. The re-tuned production mix (0.5 / 0.5) has not been run through this test.
+**Raw embeddings were the problem.** Raw SBERT plots are almost useless for new movies, and adding them to metadata hurts. Once the embeddings are mean-centred, plots plus metadata beat metadata alone by 9% in every seed, so the Sentence-BERT step earns its cost as a cold-start safeguard. Centring is now on (`center_plots`). The mix was fixed in advance at 0.65 / 0.35, not tuned on these held-out movies; the re-tuned production mix (0.5 / 0.5) does as well.
+
+**Fresh Discoveries row.** The deployed main feed gives zero-rating movies 0% of top-10 slots: gating, the popularity prior and SVD/iALS all give them nothing. So they get a dedicated row instead. It is built on the 177 movies in the catalogue that have no ratings, of which only 44 (25%) have a CMU plot. In a catalogue that plot-poor, a plot-less movie scored on metadata alone tends to win by skipping a channel: a perfect genre match scores 1.0, while a blend of two channels rarely does. `experiments/exp12_fresh_row.py` repeats the held-out test with the same 25/75 split, over 5 seeds of 300 movies:
+
+| Fresh-row scoring | NDCG@10 | Plot-bearing share of top 10 (44% of relevant movies) |
+| --- | ---: | ---: |
+| Metadata only | 0.128 | 9% |
+| Metadata + centred plots; plot-less movies scored on metadata alone | 0.135 | 15% |
+| **Metadata + centred plots; plot-less movies get the user's median plot score** | **0.181** (+34%, 5/5 seeds) | **43%** |
+
+The row uses the imputed version. The main engine still uses the metadata-only fallback for its 19% of plot-less movies; whether imputation helps there too is untested.
 
 ### Beyond accuracy
 
@@ -225,7 +238,7 @@ These metrics come from `recsys.evaluation.beyond` and are computed over the top
   - At N = 3 the hybrid is **tied** with most-popular (+2%, 1/5 seeds), not ahead. Its edge only becomes real from about N = 10.
   - At N = 10–20 the hybrid and iALS alone are tied (−1.5%, 0/5 seeds). Earlier I said iALS was slightly ahead.
 - **Plot embeddings matter for new movies, and only once they are centred.** For existing users they barely affect the hybrid (0.3–0.7% over metadata alone), because the collaborative engines already capture what they add. For movies with zero ratings, raw plot embeddings made things worse. Mean-centred, metadata plus plots beat metadata alone by **9.2% in every seed**, so the 11-minute Sentence-BERT step is justified as a cold-start safeguard.
-- **Known defect: the deployed system never shows a new movie.** Popularity gating multiplies a zero-rating movie's content score by log(1 + 0) = 0, and the popularity prior and SVD/iALS also give it nothing. In the cold-start test, held-out movies got **0% of top-10 slots**, with or without λ. So the safeguard can rank new movies well (0.209 NDCG@10 among themselves), but they never reach the main list. Fixing this needs a product decision about how new movies should compete with established ones, for example a reserved slot or a separate *new for you* row ranked by ungated content. It is not fixed yet. The current MovieLens catalogue has no zero-rating movies, so the demo cannot show the problem.
+- **New movies now get exposure through a dedicated row.** The main feed can never surface a zero-rating movie: gating multiplies its content score by log(1 + 0) = 0, and the popularity prior and SVD/iALS give it nothing (0% of top-10 slots in the cold-start test). Rather than force such movies into the main top-10, they get their own *Fresh Discoveries* row, ranked by content alone. This keeps the main feed's precision and metrics clean, and the row is where new movies collect the first ratings collaborative filtering needs. It serves the 177 unrated ML-1M movies. Its scoring was validated on held-out movies (0.208 NDCG@10 at an 87% plot share; 0.181 at the real 25% plot share, with median-plot imputation).
 - **The system is strongly popularity-biased.** At λ = 0 it covers 20% of the catalogue, and only 0.6–0.9% of slots go to long-tail movies, against 4.1% for the original system. Gating and iALS are what shifted it. The optional penalty λ buys back coverage almost for free on the random split, but costs 1–4% on the temporal one, and it cannot reach real long-tail exposure (above about 4%) before accuracy collapses. Offline accuracy on MovieLens itself rewards popularity, because people mostly rate popular films, so these costs are probably overstated. λ = 0.2 is now the default. It buys +18–20% coverage and roughly twice the long-tail share, for −0.6% NDCG@10 on the random split and −3.1% on the temporal one. The *Discovery* slider in the app ranges from 0 to 0.5.
 - **The demo still reacts slowly to the first rating.** With one rating, β(1) = 0.82, so a single rating barely changes the list. That is accuracy-optimal offline but feels unresponsive; genre picks, a higher η or the Discovery slider change it.
 
@@ -242,6 +255,7 @@ Each suggestion was implemented as an experiment and kept only if it improved he
 | 4 | **Two-stage retrieval + LightGBM LambdaRank** (top-100 candidates, 18 features) | Trained on random-style validation: +1.1% on random, −3.5% on temporal (0.134 → 0.129), mixed on cold start (−6% at N = 5). Trained on temporal validation: +8.6% on temporal (0.134 → 0.146), but the same ranker loses 33% on random (0.367 → 0.247) and 10–19% at every cold-start depth. The gains are tied to the protocol it was trained on, so they don't carry over. | ❌ Rejected |
 | 5 | **Onboarding seeds** for N_u = 0 | In a simulation where each user's answers come from their hidden history: previous fallback (Bayesian average) 0.059 → most-popular 0.085 → most-popular × (1 + genre match) 0.096. A TF-IDF genre pseudo-profile (U_seed) scores 0.024. Three seed favourites through the hybrid's fold-in score 0.098; the app already supports this by rating movies. | ✅ **Accepted**: most-popular fallback and multiplicative genre boost. The TF-IDF U_seed variant was rejected. |
 | F | **Follow-up: fading popularity prior** β(u) = e^(−η·N_u) (`experiments/exp7_fading_popularity.py`) | Tuned on validation: η = 0.2, γ = 0.15, raw counts beat log-counts. Test: N = 3 0.062 → 0.089 (+43%), N = 5 0.079 → 0.093 (+18%), N = 10 +1%, full histories unchanged. The proposed η = 0.4 with the then-current γ = 1.0 helps less (N = 3: 0.081, still below most-popular). **Over 5 seeds:** +31% at N = 3 and +15% at N = 5 (5/5 seeds each). The γ change is indistinguishable from γ = 1.0, so η is what matters. | ✅ **Accepted** (`pop_eta`) |
-| C | **Follow-up: item cold-start test** of the plot embeddings (`exp10`, `exp11`) | On zero-rating movies, raw plots hurt (−1.5% to −69% vs metadata), while mean-centred plots plus metadata gain +9.2% (5/5 seeds). For existing users, centring is neutral to +0.9% in the hybrid. Also found: the deployed system gives new movies 0% of top-10 slots. | ✅ **Accepted**: plots kept, now mean-centred (`center_plots`). New-movie exposure is an open defect |
+| C | **Follow-up: item cold-start test** of the plot embeddings (`exp10`, `exp11`) | On zero-rating movies, raw plots hurt (−1.5% to −69% vs metadata), while mean-centred plots plus metadata gain +9.2% (5/5 seeds). For existing users, centring is neutral to +0.9% in the hybrid. Also found: the deployed system gives new movies 0% of top-10 slots. | ✅ **Accepted**: plots kept, now mean-centred (`center_plots`) |
+| R | **Follow-up: Fresh Discoveries row** for zero-rating movies (`exp12`) | New movies are served in a dedicated row, ranked by ungated content, rather than inserted into the main top-10. With the real fresh catalogue's 25% plot share, imputing a median plot score for plot-less movies gives 0.135 → 0.181 NDCG@10 (+34%, 5/5 seeds), and plot-bearing movies get 43% of slots instead of 15% (44% of relevant movies have plots). | ✅ **Adopted** (`get_cold_start_recommendations`, app row) |
 | λ | **Follow-up: default popularity penalty λ = 0.2** (product choice) | +20% coverage on random and +18% on temporal; long-tail share 0.9% → 2.1% (random); NDCG@10 −0.6% (random) and −3.1% (temporal) vs λ = 0. | ✅ **Adopted** as the default (`pop_penalty`); slider range 0–0.5 |
 | 6 | **LightGCN** | A CPU implementation took 99 s per epoch on an idle machine (191 s under load). After 10 epochs it reached 0.166 *(val)*, against iALS at 0.215, which fits in about 2 s. Convergence would take hundreds of epochs, which is hours on this machine. It also has no way to embed a new user without retraining. It was not run to convergence. | ❌ Rejected (cost, plus no cold-start path) |

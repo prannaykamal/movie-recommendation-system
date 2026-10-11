@@ -33,6 +33,12 @@ class RecommenderService:
         self.popularity = minmax_rows(counts[None, :].astype(np.float32))[0]
         self.log_popularity = minmax_rows(np.log1p(counts)[None, :].astype(np.float32))[0]
         self.genres = sorted({g for gs in self.items["genres"] for g in gs.split("|")})
+        # catalogue movies with no ratings at all: served only through get_cold_start_recommendations
+        self.fresh = pd.read_parquet(a / "fresh_items.parquet") if (a / "fresh_items.parquet").exists() else None
+        if self.fresh is not None:
+            self.fresh_meta = sparse.load_npz(a / "fresh_meta_vecs.npz")
+            self.fresh_plots = np.load(a / "fresh_plot_emb.npy")
+            self.fresh_has_plot = self.fresh["has_plot"].to_numpy()
 
     def _hybrid(self, alpha_max, gamma, pop_eta) -> DynamicHybridRecommender:
         p = self.params
@@ -87,9 +93,7 @@ class RecommenderService:
         Collaborative scores come from folding the ratings into the learned SVD and iALS item
         factors. The popularity prior (boosted by any selected genres) is the whole score with no
         ratings and fades out as exp(-pop_eta * N_u)."""
-        cols = [self.index.iidx(m) for m in ratings]
-        row = sparse.csr_matrix((np.array(list(ratings.values()), dtype=np.float32),
-                                 (np.zeros(len(cols), dtype=int), cols)), shape=(1, self.index.n_items))
+        row = self._ratings_row(ratings)
         if row.nnz:
             content = self.content.score(row)[0]
             collab = self._collab(self.collab.score_new(row)[0], lambda: self.ials.score_new(row)[0])
@@ -97,6 +101,37 @@ class RecommenderService:
             content = collab = np.zeros(self.index.n_items, dtype=np.float32)
         return self._recommend(row, content, collab, self.popularity_prior(genres), k, alpha_max, gamma, pop_eta,
                                pop_penalty)
+
+    def _ratings_row(self, ratings: dict[int, float]) -> sparse.csr_matrix:
+        cols = [self.index.iidx(m) for m in ratings]
+        return sparse.csr_matrix((np.array(list(ratings.values()), dtype=np.float32),
+                                  (np.zeros(len(cols), dtype=int), cols)), shape=(1, self.index.n_items))
+
+    def get_cold_start_recommendations(self, user_id: int | None = None, ratings: dict[int, float] | None = None,
+                                       genres: list[str] | None = None, k: int = 10) -> pd.DataFrame:
+        """"Fresh Discoveries": movies with no ratings at all, ranked purely by content similarity
+        (metadata + mean-centred plot embeddings) to the user's profile, ungated.
+
+        Collaborative filtering and the popularity prior are blind to these movies, so they never
+        reach the main top-K; this separate row is where they get exposure (and their first ratings).
+        Pass `user_id` for an existing user or `ratings` (movieId -> stars) for a new one. With no
+        ratings, selected genres are matched instead; with neither, the result is empty."""
+        cols = ["movieId", "title", "genres", "year", "has_plot", "plot_summary", "match"]
+        if self.fresh is None or self.fresh.empty:
+            return pd.DataFrame(columns=cols)
+        row = self.R[self.index.uidx(user_id)] if user_id is not None else self._ratings_row(ratings or {})
+        if row.nnz:
+            # plot-less movies get the user's median plot score so they don't win just by skipping a
+            # channel (+34% NDCG@10 on a held-out set shaped like this catalogue; experiments/exp12_fresh_row.py)
+            match = self.content.score_items(row, self.fresh_meta, self.fresh_plots, self.fresh_has_plot,
+                                             impute_missing_plot=True)[0]
+        elif genres:
+            match = self.fresh["genres"].str.split("|").apply(
+                lambda gs: len(set(gs) & set(genres)) / len(genres)).to_numpy(np.float32)
+        else:
+            return pd.DataFrame(columns=cols)
+        top = np.argsort(-match, kind="stable")[:k]
+        return self.fresh.iloc[top].assign(match=match[top])[cols].reset_index(drop=True)
 
     def search(self, query: str, limit: int = 20) -> pd.DataFrame:
         hits = self.items[self.items["title"].str.contains(query, case=False, regex=False)]

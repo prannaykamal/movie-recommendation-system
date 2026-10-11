@@ -27,6 +27,11 @@ class Paths:
         return self.processed / "items.parquet"
 
     @property
+    def fresh_items(self) -> Path:
+        """Catalogue movies with no ratings at all (not part of the model's item index)."""
+        return self.processed / "fresh_items.parquet"
+
+    @property
     def plot_emb(self) -> Path:
         return self.artifacts / "plot_emb.npy"
 

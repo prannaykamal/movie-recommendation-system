@@ -1,0 +1,16 @@
+seed 42: 300 held-out movies (25% with plots), 5258 users
+seed 43: 300 held-out movies (25% with plots), 5442 users
+seed 44: 300 held-out movies (25% with plots), 5329 users
+seed 45: 300 held-out movies (25% with plots), 5111 users
+seed 46: 300 held-out movies (25% with plots), 5246 users
+                                                       ndcg@10  plot_share_top10  plot_share_relevant
+variant                                                                                              
+meta + centred plots, plot-less = median plot imputed   0.1813            0.4282               0.4402
+meta + centred plots, plot-less = metadata only         0.1353            0.1464               0.4402
+metadata only                                           0.1282            0.0858               0.4402
+random                                                  0.0299            0.2508               0.4402
+                                                                                   diff  sig_better  sig_worse
+variant                                               reference                                               
+imputed                                               plot-less = metadata only  0.0460           5          0
+meta + centred plots, plot-less = median plot imputed metadata only              0.0531           5          0
+meta + centred plots, plot-less = metadata only       metadata only              0.0071           4          0

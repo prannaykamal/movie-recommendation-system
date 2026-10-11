@@ -9,16 +9,23 @@ import pandas as pd
 log = logging.getLogger(__name__)
 
 
-def center_embeddings(emb: np.ndarray, has_plot: np.ndarray) -> np.ndarray:
+def plot_mean(emb: np.ndarray, has_plot: np.ndarray) -> np.ndarray:
+    """Mean embedding over items that have a plot (the centre used by center_embeddings)."""
+    return emb[np.asarray(has_plot, dtype=bool)].mean(axis=0).astype(np.float32)
+
+
+def center_embeddings(emb: np.ndarray, has_plot: np.ndarray, mean: np.ndarray | None = None) -> np.ndarray:
     """Subtract the mean plot embedding and re-normalise; rows without a plot stay zero.
 
     SBERT embeddings occupy a narrow cone, so raw cosines are compressed and a user's averaged
     profile looks similar to every movie. Centring restores the contrast: on movies with zero
     ratings, plot-only content went from 0.060 to 0.172 NDCG@10 and metadata + plots from -1.5%
-    to +9.2% over metadata alone (experiments/exp10_item_cold_start.py)."""
+    to +9.2% over metadata alone (experiments/exp10_item_cold_start.py).
+
+    Pass `mean` to centre new items (e.g. movies added after training) on the catalogue's centre."""
     has = np.asarray(has_plot, dtype=bool)
     out = emb.astype(np.float32, copy=True)
-    out[has] -= out[has].mean(axis=0)
+    out[has] -= plot_mean(emb, has) if mean is None else mean
     norms = np.linalg.norm(out, axis=1, keepdims=True)
     out = np.divide(out, norms, out=np.zeros_like(out), where=norms > 0)
     out[~has] = 0.0
